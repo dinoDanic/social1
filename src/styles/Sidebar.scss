@@ -1,0 +1,66 @@
+.sidebar__user {
+  display: flex;
+  h1 {
+    margin-left: 10px;
+  }
+}
+.sidebar__newPost {
+  width: 100%;
+  p {
+    text-transform: none;
+    text-align: left;
+  }
+  button {
+    cursor: pointer;
+    width: 100%;
+    border-radius: 20px;
+    margin: 30px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: #eaf4ff;
+    color: #333;
+    font-size: 0.8rem;
+    box-shadow: none;
+    font-weight: 800;
+    transition: 0.3s ease all;
+    border: none;
+    outline: none;
+    &:hover {
+      color: white !important;
+      background: #6f87ff;
+    }
+    .MuiSvgIcon-root {
+      width: 45px !important;
+      height: 45px !important;
+    }
+  }
+}
+.sidebar__menu {
+  margin-top: 30px;
+  li {
+    transition: 0.2s ease all;
+    cursor: pointer;
+    margin-top: 15px;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    color: #333;
+    padding: 15px 10px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    p {
+      color: #333;
+      font-weight: 700;
+    }
+    &:hover {
+      background: #eaf4ff;
+    }
+  }
+  .MuiSvgIcon-fontSizeSmall {
+    font-size: 1rem !important;
+  }
+}

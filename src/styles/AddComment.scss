@@ -1,0 +1,12 @@
+.addComment {
+  display: flex;
+  align-items: center;
+  margin: 10px 10px;
+  .MuiAvatar-root {
+    width: 30px;
+    height: 30px;
+  }
+  input {
+    margin-left: 5px;
+  }
+}

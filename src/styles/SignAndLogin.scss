@@ -1,0 +1,40 @@
+.signUp,
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  form {
+    position: relative;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    background: rgb(245, 245, 245);
+    padding: 20px 50px;
+    border-radius: 10px;
+    input {
+      margin: 10px 0;
+    }
+    p {
+      color: tomato;
+      margin-top: 10px;
+      max-width: 250px;
+      margin-bottom: 10px;
+    }
+    button {
+      margin-top: 10px;
+    }
+    h3 {
+      text-align: center;
+    }
+  }
+  .MuiInputBase-input {
+  }
+}
+.signUp__close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}

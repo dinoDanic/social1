@@ -1,0 +1,50 @@
+.createPost {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
+  width: 100%;
+  left: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+.createPost__form {
+  padding: 20px 20px;
+  width: 25%;
+  border-radius: 10px;
+  background: white;
+  border: 1px solid rgb(219, 219, 219);
+  form {
+    position: relative;
+    h2 {
+      text-align: center;
+    }
+    button {
+      width: 100%;
+      text-transform: none;
+      margin-top: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      border: none;
+      margin-top: 20px;
+    }
+  }
+}
+.form__name {
+  display: flex;
+  align-items: center;
+
+  h3 {
+    margin-left: 5px;
+  }
+}
+.form__close {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  cursor: pointer;
+}
