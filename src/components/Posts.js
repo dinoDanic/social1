@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../styles/Posts.scss";
 import { db } from "../lib/firebase";
 import Post from "./Post";
+import { AnimateSharedLayout } from "framer-motion";
 
 function Posts() {
   const [postList, setPostList] = useState([]);
@@ -18,21 +19,22 @@ function Posts() {
   return (
     <div className="posts">
       {postList && (
-        <div className="posts__post">
-          {postList.map((data) => {
-            console.log(data);
-            return (
-              <Post
-                id={data.id}
-                key={Math.random()}
-                postText={data.postText}
-                username={data.username}
-                image={data.image}
-                comments={data.comments}
-              />
-            );
-          })}
-        </div>
+        <AnimateSharedLayout>
+          <div className="posts__post">
+            {postList.map((data) => {
+              return (
+                <Post
+                  id={data.id}
+                  key={Math.random()}
+                  postText={data.postText}
+                  username={data.username}
+                  image={data.image}
+                  comments={data.comments}
+                />
+              );
+            })}
+          </div>
+        </AnimateSharedLayout>
       )}
     </div>
   );
