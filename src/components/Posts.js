@@ -8,13 +8,15 @@ function Posts() {
   const [postList, setPostList] = useState([]);
 
   useEffect(() => {
-    db.collection("posts").onSnapshot((data) => {
-      var list = [];
-      data.docs.forEach((doc) => {
-        list.push(doc.data());
+    db.collection("posts")
+      .orderBy("created", "asc")
+      .onSnapshot((data) => {
+        var list = [];
+        data.docs.forEach((doc) => {
+          list.push(doc.data());
+        });
+        setPostList(list);
       });
-      setPostList(list);
-    });
   }, []);
   return (
     <div className="posts">

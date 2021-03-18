@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useRef } from "react";
-import { db, Firebase } from "../lib/firebase";
+import { db, firebasetime } from "../lib/firebase";
 import { AnimatePresence, motion } from "framer-motion";
 import "../styles/Post.scss";
 import { Avatar } from "@material-ui/core";
 /* import CommentIcon from "@material-ui/icons/Comment"; */
 import { useDataLayerValue } from "../DataLayer";
 import { act } from "react-dom/test-utils";
+import { TimelapseTwoTone } from "@material-ui/icons";
+import CommentOutlinedIcon from "@material-ui/icons/CommentOutlined";
 
 function Post({ postText, username, image, comments, id }) {
   const [commentList, setCommentList] = useState([]);
@@ -19,21 +21,18 @@ function Post({ postText, username, image, comments, id }) {
   useEffect(() => {
     if (isOpen) {
       getComments();
-      console.log("getting comments", db);
+      console.log("getting comments");
     }
   }, [isOpen]);
 
   const commentHanlder = (e) => {
     e.preventDefault();
-    let time = new Date();
-    let timeHours = time.getHours();
-    let timeMinutes = time.getMinutes();
-    let timeHM = `${timeHours}${timeMinutes}`;
 
     db.collection("comments").doc().set({
       comment: addComment,
       from: user_username,
       id: id,
+      created: firebasetime,
     });
     inputComment.current.value = "";
     setAddComment("");
@@ -42,17 +41,13 @@ function Post({ postText, username, image, comments, id }) {
   const getComments = () => {
     db.collection("comments")
       .where("id", "==", id)
-      .get()
-      .then((querySnapshot) => {
+      .orderBy("created", "asc")
+      .onSnapshot((data) => {
         var list = [];
-        querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
+        data.docs.forEach((doc) => {
           list.push(doc.data());
         });
         setCommentList(list);
-      })
-      .catch((error) => {
-        console.log("Error getting documents: ", error);
       });
   };
   const post__animation = {
@@ -88,6 +83,12 @@ function Post({ postText, username, image, comments, id }) {
         <div className="post__text">
           <p>{postText}</p>
         </div>
+        <div className="post__controls">
+          <div className="post__controls--comments">
+            <CommentOutlinedIcon fontSize="small" />
+            <p>10</p>
+          </div>
+        </div>
       </motion.div>
       <AnimatePresence>
         {isOpen && (
@@ -97,8 +98,8 @@ function Post({ postText, username, image, comments, id }) {
               className="bigPost__layer"
             ></div>
             <motion.div className="bigPost" layoutId={id}>
-              <div className="post__user">
-                <Avatar className="post__avatar" />
+              <div className="bigPost__user">
+                <Avatar className="bigPost__avatar" />
                 <h3>{username}</h3>
               </div>
               {image && (
@@ -106,30 +107,37 @@ function Post({ postText, username, image, comments, id }) {
                   <img src={image} alt="" />
                 </div>
               )}
-              <p>{postText}</p>
-              <div className="post__comments">
-                {commentList?.map((data) => {
-                  return (
-                    <div className="post__com" key={Math.random()}>
-                      <p>
-                        <strong>{data.from}</strong>
-                      </p>
-                      <p>- {data.comment}</p>
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="post__addComment">
-                <Avatar fontSize="small" />
-                <form>
-                  <input
-                    ref={inputComment}
-                    type="text"
-                    placeholder="comment"
-                    onChange={(e) => setAddComment(e.target.value)}
-                  />
-                  <button onClick={commentHanlder}></button>
-                </form>
+              <div className="bigPost__content">
+                <div className="bigPost__post">
+                  <p>{postText}</p>
+                </div>
+                <div className="bigPost__comments">
+                  {commentList?.map((data) => {
+                    return (
+                      <div className="bigPost__com" key={Math.random()}>
+                        <div className="bigPost__comMsg">
+                          <p>
+                            <strong>{data.from}</strong>
+                          </p>
+                          <p>{data.comment}</p>
+                        </div>
+                        <div className="bigPost__comDate"></div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="bigPost__addComment">
+                  <Avatar fontSize="small" />
+                  <form>
+                    <input
+                      ref={inputComment}
+                      type="text"
+                      placeholder="comment"
+                      onChange={(e) => setAddComment(e.target.value)}
+                    />
+                    <button onClick={commentHanlder}></button>
+                  </form>
+                </div>
               </div>
             </motion.div>
           </>

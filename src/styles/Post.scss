@@ -1,40 +1,20 @@
+$paddingBig: 20px;
+$paddingSmall: 10px;
 .post {
-  background: rgb(247, 247, 247);
+  background: white;
   margin: 10px;
-  width: 250px;
+  padding: $paddingSmall;
+  min-width: 200px;
+  max-width: 300px;
+  flex-grow: 1;
+  height: 200px;
   border-radius: 20px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
-}
-.bigPost {
-  position: absolute;
-  top: 5%;
-  width: 60%;
-  left: 20%;
-  background: rgb(247, 247, 247);
-  border-radius: 20px;
-  min-height: 300px;
-  z-index: 150;
-  box-shadow: 0 0 20px -10px black;
-  p {
-    margin: 20px;
-  }
-  .post__user {
-    margin: 20px;
-  }
-}
-.bigPost__layer {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-
-  top: 0;
-  left: 0;
-  z-index: 100;
+  box-shadow: 0 0 20px -14px black;
 }
 .post__user {
-  margin: 10px;
   display: flex;
   align-items: center;
   z-index: 50;
@@ -47,6 +27,9 @@
 .post__avatar {
   width: 30px;
   height: 30px;
+}
+.post__content {
+  padding: $paddingBig;
 }
 .post__text {
   margin-bottom: 10px;
@@ -61,13 +44,59 @@
   left: 0;
   top: 0;
   position: absolute;
-  filter: blur(5px);
+  filter: blur(8px);
   z-index: 0;
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    opacity: 0.3;
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}
+.post__controls {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  p {
+    color: gray;
+  }
+}
+.post__controls--comments {
+  display: flex;
+  align-items: center;
+  .MuiSvgIcon-root {
+    color: gray;
+  }
+}
+.bigPost {
+  position: fixed;
+  top: 5%;
+  width: 50%;
+  left: 25%;
+  background: white;
+  border-radius: 20px;
+  min-height: 300px;
+  z-index: 150;
+  box-shadow: 0 0 20px -10px black;
+}
+.bigPost__post {
+  margin: 0 0 10px 0px;
+}
+.bigPost__layer {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+.bigPost__user {
+  padding: $paddingBig;
+  display: flex;
+  align-items: center;
+  h3 {
+    margin-left: 10px;
   }
 }
 .bigPost__image {
@@ -77,8 +106,10 @@
     object-fit: cover;
   }
 }
-.post__comments {
-  margin: 20px;
+.bigPost__content {
+  padding: $paddingBig;
+}
+.bigPost__comments {
   button {
     margin-bottom: 10px;
   }
@@ -86,13 +117,15 @@
     margin: 5px;
   }
 }
-.post__com {
-  border-bottom: 1px solid rgb(236, 236, 236);
+.bigPost__com {
+  background: #f0f2f5;
+  border-radius: 20px;
+  padding: 3px 10px;
+  margin-bottom: 10px;
 }
-.post__addComment {
+.bigPost__addComment {
   display: flex;
   align-items: center;
-  margin: 20px 20px;
 
   .MuiAvatar-root {
     width: 30px;
@@ -105,6 +138,7 @@
     border-radius: 20px;
     width: 100%;
     box-sizing: border-box;
+    background: #f0f2f5;
   }
   form {
     width: 100%;

@@ -1,7 +1,7 @@
 export const initialState = {
   user_login: false,
   userData: {},
-  user_username: "unknown",
+  user_username: "Zmaj",
   user_profileImage: "",
 };
 

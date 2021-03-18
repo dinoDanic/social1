@@ -2,9 +2,10 @@ import { Button } from "@material-ui/core";
 import { Avatar } from "@material-ui/core";
 import React, { useState } from "react";
 import "../styles/CreatePost.scss";
-import { db } from "../lib/firebase";
+import { db, firebasetime } from "../lib/firebase";
 import { useDataLayerValue } from "../DataLayer";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import { motion } from "framer-motion";
 
 function CreatePost({ setCreatePost }) {
   const [{ user_username }] = useDataLayerValue();
@@ -17,8 +18,10 @@ function CreatePost({ setCreatePost }) {
         postText: onMind,
         username: user_username,
         image: imageLink,
+        created: firebasetime,
       })
       .then((docData) => {
+        console.log(docData);
         db.collection("posts").doc(docData.id).set(
           {
             id: docData.id,
