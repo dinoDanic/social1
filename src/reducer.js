@@ -1,8 +1,9 @@
 export const initialState = {
   user_login: false,
   userData: {},
-  user_username: "Zmaj",
+  user_username: "Buča",
   user_profileImage: "",
+  createPost: false,
 };
 
 const reducer = (state, action) => {
@@ -23,6 +24,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         user_username: action.user_username,
+      };
+    case "SET_CREATEPOST":
+      return {
+        ...state,
+        createPost: action.createPost,
       };
     default:
       return state;

@@ -4,15 +4,18 @@ $paddingSmall: 10px;
   background: white;
   margin: 10px;
   padding: $paddingSmall;
-  min-width: 200px;
+  min-width: 150px;
   max-width: 300px;
   flex-grow: 1;
-  height: 200px;
+  height: 150px;
   border-radius: 20px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
   box-shadow: 0 0 20px -14px black;
+  /*   &:hover {
+    transform: scale(1.03);
+  } */
 }
 .post__user {
   display: flex;
@@ -35,7 +38,7 @@ $paddingSmall: 10px;
   margin-bottom: 10px;
   position: relative;
   p {
-    margin: 20px;
+    margin: 10px;
   }
 }
 .post__image {
@@ -58,15 +61,21 @@ $paddingSmall: 10px;
   position: absolute;
   bottom: 10px;
   right: 20px;
+  display: flex;
   p {
     color: gray;
   }
 }
-.post__controls--comments {
+.post__controls--comments,
+.post__controls--likes {
   display: flex;
   align-items: center;
+  margin-left: 5px;
   .MuiSvgIcon-root {
     color: gray;
+  }
+  p {
+    margin-left: 3px;
   }
 }
 .bigPost {
@@ -76,28 +85,45 @@ $paddingSmall: 10px;
   left: 25%;
   background: white;
   border-radius: 20px;
-  min-height: 300px;
+  max-height: 80vh;
   z-index: 150;
   box-shadow: 0 0 20px -10px black;
 }
+.bigPost__content {
+  padding: $paddingBig;
+  box-sizing: border-box;
+  width: 100%;
+}
 .bigPost__post {
-  margin: 0 0 10px 0px;
+  margin: 0 0 40px 0px;
 }
 .bigPost__layer {
   width: 100%;
   height: 100%;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 100;
 }
-.bigPost__user {
+.bigPost__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: $paddingBig;
+}
+.bigPost__user {
   display: flex;
   align-items: center;
   h3 {
     margin-left: 10px;
   }
+}
+.bigPost__like {
+  .MuiSvgIcon-root {
+  }
+}
+.bigPost__like-button {
+  cursor: pointer;
 }
 .bigPost__image {
   img {
@@ -106,9 +132,7 @@ $paddingSmall: 10px;
     object-fit: cover;
   }
 }
-.bigPost__content {
-  padding: $paddingBig;
-}
+
 .bigPost__comments {
   button {
     margin-bottom: 10px;
@@ -120,13 +144,14 @@ $paddingSmall: 10px;
 .bigPost__com {
   background: #f0f2f5;
   border-radius: 20px;
-  padding: 3px 10px;
+  padding: 8px 15px;
   margin-bottom: 10px;
 }
 .bigPost__addComment {
   display: flex;
   align-items: center;
-
+  width: 100%;
+  box-sizing: border-box;
   .MuiAvatar-root {
     width: 30px;
     height: 30px;
@@ -144,5 +169,7 @@ $paddingSmall: 10px;
     width: 100%;
     display: flex;
     align-items: center;
+    button {
+    }
   }
 }

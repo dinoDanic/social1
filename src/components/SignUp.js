@@ -3,7 +3,7 @@ import { Firebase, db } from "../lib/firebase";
 
 import "../styles/SignAndLogin.scss";
 import { useDataLayerValue } from "../DataLayer";
-import { Button, TextField } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
 function SignUp({ setAppUserSignUp }) {

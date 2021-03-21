@@ -20,7 +20,9 @@
     align-items: center;
     padding: 10px 15px;
     background: #eaf4ff;
+    background: #6f87ff;
     color: #333;
+    color: white;
     font-size: 0.8rem;
     box-shadow: none;
     font-weight: 800;
@@ -29,11 +31,14 @@
     outline: none;
     &:hover {
       color: white !important;
-      background: #6f87ff;
+      background: #404c8b;
     }
     .MuiSvgIcon-root {
       width: 45px !important;
       height: 45px !important;
+    }
+    p {
+      color: white;
     }
   }
 }

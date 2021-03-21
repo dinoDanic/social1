@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Firebase, db } from "../lib/firebase";
 
 import "../styles/SignAndLogin.scss";
-import { Button, TextField } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import { useDataLayerValue } from "../DataLayer";
 
