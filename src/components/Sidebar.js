@@ -9,16 +9,21 @@ import PublicIcon from "@material-ui/icons/Public";
 import { Avatar } from "@material-ui/core";
 import { useDataLayerValue } from "../DataLayer";
 import CreatePost from "./CreatePost";
+import { Link } from "react-router-dom";
+import ListAltOutlinedIcon from "@material-ui/icons/ListAltOutlined";
 
 function Sidebar() {
   /* const [createPost, setCreatePost] = useState(false); */
-  const [{ user_username, createPost }, dispatch] = useDataLayerValue();
+  const [
+    { user_username, createPost, user_profileImage },
+    dispatch,
+  ] = useDataLayerValue();
 
   return (
     <div className="sidebar">
       <AnimatePresence>{createPost && <CreatePost />}</AnimatePresence>
       <div className="sidebar__user">
-        <Avatar />
+        <Avatar src={user_profileImage} />
         <h1>{user_username}</h1>
       </div>
       <div className="sidebar__newPost">
@@ -40,21 +45,27 @@ function Sidebar() {
       </div>
       <div className="sidebar__menu">
         <ul>
-          <li>
-            <PersonIcon fontSize="small" />
-            <p>My Account</p>
-            <ArrowForwardIosIcon fontSize="small" />
-          </li>
-          <li>
-            <EmojiPeopleIcon fontSize="small" />
-            <p>Friends</p>
-            <ArrowForwardIosIcon fontSize="small" />
-          </li>
-          <li>
-            <PublicIcon fontSize="small" />
-            <p>Discover</p>
-            <ArrowForwardIosIcon fontSize="small" />
-          </li>
+          <Link to="/">
+            <li>
+              <ListAltOutlinedIcon fontSize="small" />
+              <p>Posts</p>
+              <ArrowForwardIosIcon fontSize="small" />
+            </li>
+          </Link>
+          <Link to="/acc">
+            <li>
+              <PersonIcon fontSize="small" />
+              <p>My Account</p>
+              <ArrowForwardIosIcon fontSize="small" />
+            </li>
+          </Link>
+          <Link to="#">
+            <li>
+              <EmojiPeopleIcon fontSize="small" />
+              <p>Friends</p>
+              <ArrowForwardIosIcon fontSize="small" />
+            </li>
+          </Link>
         </ul>
       </div>
     </div>

@@ -2,7 +2,7 @@ import React from "react";
 import "./styles/App.scss";
 import { useDataLayerValue } from "./DataLayer";
 import UnknownPerson from "./components/UnknownPerson";
-import Site from "./components/Site";
+import Site from "./pages/Site";
 
 function App() {
   const [{ user_login }] = useDataLayerValue();

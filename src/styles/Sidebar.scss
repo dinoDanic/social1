@@ -1,7 +1,12 @@
 .sidebar__user {
   display: flex;
+  align-items: center;
   h1 {
     margin-left: 10px;
+  }
+  .MuiAvatar-root {
+    width: 60px;
+    height: 60px;
   }
 }
 .sidebar__newPost {
@@ -46,24 +51,30 @@
   margin-top: 30px;
   li {
     transition: 0.2s ease all;
+    list-style: none;
     cursor: pointer;
     margin-top: 15px;
     text-align: left;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     width: 100%;
     color: #333;
     padding: 15px 10px;
     box-sizing: border-box;
     border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     p {
       color: #333;
       font-weight: 700;
     }
     &:hover {
-      background: #eaf4ff;
+      background: #6f87ff;
+      color: white !important;
     }
+  }
+  a {
+    text-transform: none;
+    text-decoration: none;
   }
   .MuiSvgIcon-fontSizeSmall {
     font-size: 1rem !important;

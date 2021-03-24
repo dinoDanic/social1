@@ -31,6 +31,10 @@ function Login({ setAppUserLogin }) {
           .then((doc) => {
             if (doc.exists) {
               dispatch({
+                type: "SET_AVATARPHOTO",
+                user_profileImage: doc.data().avatar,
+              });
+              dispatch({
                 type: "SET_USER_USERNAME",
                 user_username: doc.data().username,
               });

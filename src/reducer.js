@@ -2,7 +2,8 @@ export const initialState = {
   user_login: false,
   userData: {},
   user_username: "Buča",
-  user_profileImage: "",
+  user_userId: "",
+  user_profileImage: "https://picsum.photos/200",
   createPost: false,
 };
 
@@ -29,6 +30,16 @@ const reducer = (state, action) => {
       return {
         ...state,
         createPost: action.createPost,
+      };
+    case "SET_AVATARPHOTO":
+      return {
+        ...state,
+        user_profileImage: action.user_profileImage,
+      };
+    case "SET_USER_ID":
+      return {
+        ...state,
+        user_userId: action.user_userId,
       };
     default:
       return state;

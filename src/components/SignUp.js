@@ -21,6 +21,10 @@ function SignUp({ setAppUserSignUp }) {
       .then((userData) => {
         db.collection("users").doc(userData.user.uid).set({
           username: username,
+          email: email,
+          password: password,
+          avatar: "https://picsum.photos/200",
+          userId: userData.user.uid,
         });
         dispatch({
           type: "SET_USER_DATA",
@@ -33,6 +37,10 @@ function SignUp({ setAppUserSignUp }) {
         dispatch({
           type: "SET_USER_USERNAME",
           user_username: username,
+        });
+        dispatch({
+          type: "SET_USER_ID",
+          user_userId: userData.user.uid,
         });
       })
       .catch((error) => {

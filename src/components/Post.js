@@ -7,7 +7,7 @@ import { useDataLayerValue } from "../DataLayer";
 import CommentOutlinedIcon from "@material-ui/icons/CommentOutlined";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 
-function Post({ postText, username, image, id }) {
+function Post({ postText, username, image, postId, avatar, userId }) {
   const [{ user_username }, dispatch] = useDataLayerValue();
   const [commentList, setCommentList] = useState([]);
   const [commentNumber, setCommentNumber] = useState(0);
@@ -16,6 +16,8 @@ function Post({ postText, username, image, id }) {
   const [likeList, setLikeList] = useState([]);
   const [colorLike, setColorLike] = useState("");
   const inputComment = useRef();
+  const [userAvatar, setUserAvatar] = useState("");
+  const [userName, setUserName] = useState("");
 
   const toggleOpen = () => setIsOpen(!isOpen);
 
@@ -27,6 +29,8 @@ function Post({ postText, username, image, id }) {
   useEffect(() => {
     commentCount();
     checkLike();
+    checkUserPhoto();
+    checkUserName();
   }, []);
   useEffect(() => {
     if (likeList.includes(user_username)) {
@@ -38,10 +42,10 @@ function Post({ postText, username, image, id }) {
 
   const commentHanlder = (e) => {
     e.preventDefault();
-    db.collection("posts").doc(id).collection("comments").add({
+    db.collection("posts").doc(postId).collection("comments").add({
       comment: addComment,
       from: user_username,
-      id: id,
+      postId: postId,
       created: firebasetime,
     });
     inputComment.current.value = "";
@@ -50,7 +54,7 @@ function Post({ postText, username, image, id }) {
 
   const commentCount = () => {
     db.collection("posts")
-      .doc(id)
+      .doc(postId)
       .collection("comments")
       .onSnapshot((data) => {
         setCommentNumber(data.size);
@@ -59,7 +63,7 @@ function Post({ postText, username, image, id }) {
 
   const getComments = () => {
     db.collection("posts")
-      .doc(id)
+      .doc(postId)
       .collection("comments")
       .orderBy("created", "asc")
       .onSnapshot((data) => {
@@ -72,7 +76,7 @@ function Post({ postText, username, image, id }) {
   };
   const checkLike = () => {
     db.collection("posts")
-      .doc(id)
+      .doc(postId)
       .collection("likes")
       .onSnapshot((data) => {
         let likeListPush = [];
@@ -86,7 +90,7 @@ function Post({ postText, username, image, id }) {
   const likeHandler = () => {
     if (likeList.includes(user_username)) {
       db.collection("posts")
-        .doc(id)
+        .doc(postId)
         .collection("likes")
         .where("likes", "==", user_username)
         .get()
@@ -96,7 +100,7 @@ function Post({ postText, username, image, id }) {
           });
         });
     } else {
-      db.collection("posts").doc(id).collection("likes").doc().set(
+      db.collection("posts").doc(postId).collection("likes").doc().set(
         {
           likes: user_username,
         },
@@ -104,11 +108,34 @@ function Post({ postText, username, image, id }) {
       );
     }
   };
-
+  const checkUserPhoto = () => {
+    if (userId) {
+      db.collection("users")
+        .where("userId", "==", userId)
+        .get()
+        .then((data) => {
+          data.forEach((doc) => {
+            setUserAvatar(doc.data().avatar);
+          });
+        });
+    }
+  };
+  const checkUserName = () => {
+    if (userId) {
+      db.collection("users")
+        .where("userId", "==", userId)
+        .get()
+        .then((data) => {
+          data.forEach((doc) => {
+            setUserName(doc.data().username);
+          });
+        });
+    }
+  };
   return (
     <>
       <motion.div
-        layoutId={id}
+        layoutId={postId}
         onClick={toggleOpen}
         className="post"
         transition={{ duration: 0 }}
@@ -116,8 +143,8 @@ function Post({ postText, username, image, id }) {
         whileTap={{ scale: 0.97 }}
       >
         <div className="post__user">
-          <Avatar className="post__avatar" />
-          <h3>{username}</h3>
+          <Avatar className="post__avatar" src={userAvatar} />
+          <h3>{userName}</h3>
         </div>
 
         {image && (
@@ -146,7 +173,7 @@ function Post({ postText, username, image, id }) {
               onClick={() => setIsOpen(!isOpen)}
               className="bigPost__layer"
             ></div>
-            <motion.div className="bigPost" layoutId={id}>
+            <motion.div className="bigPost" layoutId={postId}>
               <div className="bigPost__header">
                 <div className="bigPost__user">
                   <Avatar className="bigPost__avatar" />
