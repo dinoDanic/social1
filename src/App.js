@@ -3,10 +3,12 @@ import "./styles/App.scss";
 import { useDataLayerValue } from "./DataLayer";
 import UnknownPerson from "./components/UnknownPerson";
 import Site from "./pages/Site";
+import Login from "./components/Login";
 
 function App() {
   const [{ user_login }] = useDataLayerValue();
-  return <div className="app">{user_login ? <Site /> : <UnknownPerson />}</div>;
+  /* return <div className="app">{user_login ? <Site /> : <UnknownPerson />}</div>; */
+  return <div className="app">{user_login ? <Site /> : <Login />}</div>;
 }
 
 export default App;

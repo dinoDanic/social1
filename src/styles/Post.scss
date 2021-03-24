@@ -75,7 +75,7 @@ $paddingSmall: 10px;
     margin-left: 3px;
   }
 }
-.bigPost {
+.bigpost22 {
   position: fixed;
   top: 5%;
   width: 50%;
@@ -86,15 +86,15 @@ $paddingSmall: 10px;
   z-index: 150;
   box-shadow: 0 0 20px -10px black;
 }
-.bigPost__content {
+.bigpost2__content {
   padding: $paddingBig;
   box-sizing: border-box;
   width: 100%;
 }
-.bigPost__post {
+.bigpost2__post {
   margin: 0 0 40px 0px;
 }
-.bigPost__layer {
+.bigpost2__layer {
   width: 100%;
   height: 100%;
   position: fixed;
@@ -102,27 +102,27 @@ $paddingSmall: 10px;
   left: 0;
   z-index: 100;
 }
-.bigPost__header {
+.bigpost2__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: $paddingBig;
 }
-.bigPost__user {
+.bigpost2__user {
   display: flex;
   align-items: center;
   h3 {
     margin-left: 10px;
   }
 }
-.bigPost__like {
+.bigpost2__like {
   .MuiSvgIcon-root {
   }
 }
-.bigPost__like-button {
+.bigpost2__like-button {
   cursor: pointer;
 }
-.bigPost__image {
+.bigpost2__image {
   img {
     width: 100%;
     height: 300px;
@@ -130,7 +130,7 @@ $paddingSmall: 10px;
   }
 }
 
-.bigPost__comments {
+.bigpost2__comments {
   button {
     margin-bottom: 10px;
   }
@@ -138,13 +138,13 @@ $paddingSmall: 10px;
     margin: 5px;
   }
 }
-.bigPost__com {
+.bigpost2__com {
   background: #f0f2f5;
   border-radius: 20px;
   padding: 8px 15px;
   margin-bottom: 10px;
 }
-.bigPost__addComment {
+.bigpost2__addComment {
   display: flex;
   align-items: center;
   width: 100%;

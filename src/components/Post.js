@@ -6,8 +6,9 @@ import { Avatar } from "@material-ui/core";
 import { useDataLayerValue } from "../DataLayer";
 import CommentOutlinedIcon from "@material-ui/icons/CommentOutlined";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
+import BigPost from "./BigPost";
 
-function Post({ postText, username, image, postId, avatar, userId }) {
+function Post({ postText, image, postId, userId }) {
   const [{ user_username }, dispatch] = useDataLayerValue();
   const [commentList, setCommentList] = useState([]);
   const [commentNumber, setCommentNumber] = useState(0);
@@ -87,27 +88,6 @@ function Post({ postText, username, image, postId, avatar, userId }) {
       });
   };
 
-  const likeHandler = () => {
-    if (likeList.includes(user_username)) {
-      db.collection("posts")
-        .doc(postId)
-        .collection("likes")
-        .where("likes", "==", user_username)
-        .get()
-        .then((data) => {
-          data.forEach((doc) => {
-            doc.ref.delete();
-          });
-        });
-    } else {
-      db.collection("posts").doc(postId).collection("likes").doc().set(
-        {
-          likes: user_username,
-        },
-        { merge: true }
-      );
-    }
-  };
   const checkUserPhoto = () => {
     if (userId) {
       db.collection("users")
@@ -169,11 +149,18 @@ function Post({ postText, username, image, postId, avatar, userId }) {
       <AnimatePresence>
         {isOpen && (
           <>
-            <div
-              onClick={() => setIsOpen(!isOpen)}
-              className="bigPost__layer"
-            ></div>
-            <motion.div className="bigPost" layoutId={postId}>
+            <BigPost
+              likeList={likeList}
+              userName={userName}
+              userAvatar={userAvatar}
+              postId={postId}
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+              image={image}
+              postText={postText}
+              commentList={commentList}
+            />
+            {/* <motion.div className="bigPost" layoutId={postId}>
               <div className="bigPost__header">
                 <div className="bigPost__user">
                   <Avatar className="bigPost__avatar" />
@@ -228,7 +215,7 @@ function Post({ postText, username, image, postId, avatar, userId }) {
                   </form>
                 </div>
               </div>
-            </motion.div>
+            </motion.div> */}
           </>
         )}
       </AnimatePresence>

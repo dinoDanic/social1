@@ -1,9 +1,9 @@
 export const initialState = {
   user_login: false,
   userData: {},
-  user_username: "Buča",
+  user_username: "",
   user_userId: "",
-  user_profileImage: "https://picsum.photos/200",
+  user_profileImage: "",
   createPost: false,
 };
 

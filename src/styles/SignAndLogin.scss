@@ -1,40 +1,78 @@
-.signUp,
 .login {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-
+  height: 100vh;
+}
+.login__box {
+  background: white;
+  width: 350px;
+  border-radius: 20px;
+  text-align: center;
+  height: 450px;
+  position: relative;
+  padding: 30px;
   form {
-    position: relative;
-    margin-top: 10px;
+    margin: 30px 0;
     display: flex;
     flex-direction: column;
-    background: rgb(245, 245, 245);
-    padding: 20px 50px;
-    border-radius: 10px;
     input {
-      margin: 10px 0;
-    }
-    p {
-      color: tomato;
-      margin-top: 10px;
-      max-width: 250px;
+      padding: 15px 10px;
+      border: none;
+      background: #f0f2f5;
+      border-radius: 20px;
       margin-bottom: 10px;
+      outline: none;
+      color: rgb(49, 49, 49);
     }
     button {
-      margin-top: 10px;
+      padding: 15px 0;
+      border-radius: 20px;
+      border: none;
+      outline: none;
+      background: #6f87ff;
+      color: white;
+      font-weight: 800;
+      cursor: pointer;
     }
-    h3 {
-      text-align: center;
+    .login__failBtn {
+      background: #b0b6d1;
     }
-  }
-  .MuiInputBase-input {
   }
 }
-.signUp__close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+.login__inside {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+
+  box-sizing: border-box;
+}
+.login__wraper {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.login__noAcc {
   cursor: pointer;
+}
+.login__dino {
+  position: absolute;
+  bottom: -120px;
+  left: -170px;
+  img {
+    width: 200px;
+  }
+}
+.login__bubble {
+  position: absolute;
+  left: -70px;
+  bottom: 120px;
+  img {
+    width: 100px;
+  }
+}
+.login__error {
+  color: tomato;
 }
