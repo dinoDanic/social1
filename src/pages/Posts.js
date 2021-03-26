@@ -7,9 +7,11 @@ import { pageVariants } from "../functions/pageVariants";
 function Posts() {
   const [postList, setPostList] = useState([]);
   const [postListPopular, setPostListPopular] = useState([]);
+  const [userPhoto, setUserPhoto] = useState("");
   useEffect(() => {
     db.collection("posts")
       .orderBy("created", "desc")
+      .limit(12)
       .onSnapshot((data) => {
         var list = [];
         data.docs.forEach((doc) => {
@@ -18,6 +20,17 @@ function Posts() {
         setPostList(list);
       });
   }, []);
+  const getPhotoFunction = (prop1) => {
+    db.collection("users")
+      .where("userId", "==", prop1.userId)
+      .get()
+      .then((data) => {
+        data.forEach((doc) => {
+          /* return doc.data().avatar; */
+          setUserPhoto(doc.data().avatar);
+        });
+      });
+  };
 
   return (
     <motion.div
@@ -34,15 +47,17 @@ function Posts() {
           <div className="posts__post">
             {postList.map((data) => {
               return (
-                <Post
-                  userId={data.userId}
-                  postId={data.postId}
-                  key={Math.random()}
-                  postText={data.postText}
-                  username={data.username}
-                  image={data.image}
-                  postList={postList}
-                />
+                <>
+                  <Post
+                    userId={data.userId}
+                    postId={data.postId}
+                    key={Math.random()}
+                    postText={data.postText}
+                    username={data.username}
+                    image={data.image}
+                    postList={postList}
+                  />
+                </>
               );
             })}
           </div>

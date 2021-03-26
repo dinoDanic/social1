@@ -41,6 +41,7 @@ function Acc() {
         user_username: newUsername,
       });
     }
+    setValueBtn(false);
   };
 
   useEffect(() => {
@@ -59,43 +60,51 @@ function Acc() {
       exit="exit"
       variants={pageVariants}
     >
+      <div className="acc_h1"></div>
       <form onSubmit={(e) => e.preventDefault()}>
-        <h1>Account</h1>
         <div className="acc__avatar">
-          <h3>{user_username}</h3>
           <div className="acc__setImage">
-            <Avatar src={user_profileImage} className="" />
-            <Button
+            {/* <h3>{user_username}</h3> */}
+            <Avatar
+              src={user_profileImage}
+              onClick={() => setAvatarImage(!avatarImage)}
+            />
+            {/* <Button
               onClick={() => setAvatarImage(!avatarImage)}
               variant="outlined"
               color="primary"
             >
               Set Image
-            </Button>
+            </Button> */}
           </div>
-          {avatarImage && (
-            <div className="acc__inputImg">
-              <TextField
-                variant="outlined"
-                label="Image URL"
-                onChange={(e) => setAvatarImageUrl(e.target.value)}
-              />
-            </div>
-          )}
         </div>
-        <hr />
+
         <div className="acc__userinfo">
           <div className="acc__username">
             <h3>Username</h3>
-            <TextField
-              variant="outlined"
-              label={user_username}
-              onChange={(e) => setNewUsername(e.target.value)}
-            />
+            {valueBtn ? (
+              <input
+                placeholder={user_username}
+                onChange={(e) => setNewUsername(e.target.value)}
+              />
+            ) : (
+              <p>{user_username}</p>
+            )}
           </div>
           <div className="acc__email">
             <h3>Email</h3>
             <p>{userData.user.email}</p>
+          </div>
+          <div className="acc__userPhoto">
+            <h3>User Photo</h3>
+            {valueBtn ? (
+              <input
+                placeholder={user_profileImage}
+                onChange={(e) => setAvatarImageUrl(e.target.value)}
+              />
+            ) : (
+              <p>{user_profileImage}</p>
+            )}
           </div>
         </div>
         {valueBtn ? (
@@ -107,8 +116,8 @@ function Acc() {
             Save
           </Button>
         ) : (
-          <Button variant="contained" disabled>
-            Save
+          <Button variant="contained" onClick={() => setValueBtn(!valueBtn)}>
+            Edit
           </Button>
         )}
       </form>

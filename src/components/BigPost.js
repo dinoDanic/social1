@@ -5,6 +5,7 @@ import "../styles/BigPost.scss";
 import { Avatar } from "@material-ui/core";
 import { useDataLayerValue } from "../DataLayer";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
+import { Link } from "react-router-dom";
 function BigPost({
   postId,
   setIsOpen,
@@ -15,6 +16,7 @@ function BigPost({
   postText,
   commentList,
   likeList,
+  userId,
 }) {
   const [{ user_username, user_profileImage }, dispatch] = useDataLayerValue();
   const [addComment, setAddComment] = useState("");
@@ -78,15 +80,22 @@ function BigPost({
         <div className="bigPost__content">
           {image && (
             <div className="bigPost__image">
-              <img src={image} alt="" />
+              <motion.img layoutId={`image ${postId}`} src={image} alt="" />
             </div>
           )}
           <div className="bigPost__post">
-            <div className="bigPost__user">
+            <motion.div
+              className="bigPost__user"
+              layoutId={`postUser ${postId}`}
+            >
               <Avatar className="bigPost__avatar" src={userAvatar} />
-              <h2>{userName}</h2>
+              <Link to={`user/${userId}`}>
+                <h3>{userName}</h3>
+              </Link>
+            </motion.div>
+            <div className="bigPost__postContent">
+              <motion.p layoutId={`postText ${postId}`}>{postText}</motion.p>
             </div>
-            <div className="bigPost__postContent">{postText}</div>
           </div>
         </div>
         <div className="bigPost__info">

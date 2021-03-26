@@ -32,6 +32,10 @@ function Login({ setAppUserLogin }) {
           type: "SET_USER_LOGIN",
           user_login: true,
         });
+        dispatch({
+          type: "SET_USER_ID",
+          user_userId: userData.user.uid,
+        });
         db.collection("users")
           .doc(userData.user.uid)
           .get()

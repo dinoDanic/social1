@@ -10,21 +10,18 @@
 .sec2,
 .sec3 {
   min-width: 200px;
+  padding: 40px 20px;
 }
 .sec1 {
   flex: 0.1;
-  padding: 20px;
   /* border: 1px solid rgb(243, 243, 243); */
-  margin: 10px;
   border-radius: 20px;
   background: #f0f2f5;
   z-index: 100;
 }
 .sec2 {
-  flex: 0.9;
-  margin-top: 30px;
-  margin-right: 20px;
+  flex: 0.8;
 }
-/* .sec3 {
-  flex: 0.2;
-} */
+.sec3 {
+  flex: 0.1;
+}

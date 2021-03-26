@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
-import { db, firebasetime } from "../lib/firebase";
+import React, { useEffect, useState, useRef, useMemo } from "react";
+import { db } from "../lib/firebase";
 import { AnimatePresence, motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
 import "../styles/Post.scss";
 import { Avatar } from "@material-ui/core";
 import { useDataLayerValue } from "../DataLayer";
@@ -8,7 +9,7 @@ import CommentOutlinedIcon from "@material-ui/icons/CommentOutlined";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import BigPost from "./BigPost";
 
-function Post({ postText, image, postId, userId }) {
+function Post({ postText, image, postId, userId, avatar }) {
   const [{ user_username }, dispatch] = useDataLayerValue();
   const [commentList, setCommentList] = useState([]);
   const [commentNumber, setCommentNumber] = useState(0);
@@ -28,9 +29,13 @@ function Post({ postText, image, postId, userId }) {
     }
   }, [isOpen]);
   useEffect(() => {
+    if (!userAvatar) {
+      checkUserPhoto();
+    }
+  }, [userAvatar]);
+  useEffect(() => {
     commentCount();
     checkLike();
-    checkUserPhoto();
     checkUserName();
   }, []);
   useEffect(() => {
@@ -41,7 +46,7 @@ function Post({ postText, image, postId, userId }) {
     }
   }, [likeList]);
 
-  const commentHanlder = (e) => {
+  /*   const commentHanlder = (e) => {
     e.preventDefault();
     db.collection("posts").doc(postId).collection("comments").add({
       comment: addComment,
@@ -51,7 +56,7 @@ function Post({ postText, image, postId, userId }) {
     });
     inputComment.current.value = "";
     setAddComment("");
-  };
+  }; */
 
   const commentCount = () => {
     db.collection("posts")
@@ -100,6 +105,7 @@ function Post({ postText, image, postId, userId }) {
         });
     }
   };
+
   const checkUserName = () => {
     if (userId) {
       db.collection("users")
@@ -122,18 +128,35 @@ function Post({ postText, image, postId, userId }) {
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.97 }}
       >
-        <div className="post__user">
+        <motion.div
+          className="post__user"
+          layoutId={`postUser ${postId}`}
+          transition={{ duration: 0 }}
+        >
           <Avatar className="post__avatar" src={userAvatar} />
-          <h3>{userName}</h3>
-        </div>
-
-        {image && (
-          <div className="post__image">
-            <img src={image} alt="" />
+          <div className="post__userName">
+            <h3>{userName}</h3>
           </div>
-        )}
-        <div className="post__text">
-          <p>{postText}</p>
+        </motion.div>
+        <div className="post__content">
+          {image && (
+            <div className="post__image">
+              <motion.img
+                layoutId={`image ${postId}`}
+                src={image}
+                alt=""
+                transition={{ duration: 0 }}
+              />
+            </div>
+          )}
+          <div className="post__text">
+            <motion.p
+              layoutId={`postText ${postId}`}
+              transition={{ duration: 0 }}
+            >
+              {postText}
+            </motion.p>
+          </div>
         </div>
         <div className="post__controls">
           <div className="post__controls--likes">
@@ -150,6 +173,7 @@ function Post({ postText, image, postId, userId }) {
         {isOpen && (
           <>
             <BigPost
+              userId={userId}
               likeList={likeList}
               userName={userName}
               userAvatar={userAvatar}
