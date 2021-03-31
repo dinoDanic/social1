@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { db } from "../lib/firebase";
-import { Avatar, Button, Input, TextField } from "@material-ui/core";
+import { Avatar, Button } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { pageVariants } from "../functions/pageVariants";
 import { useDataLayerValue } from "../DataLayer";

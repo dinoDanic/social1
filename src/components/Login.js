@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Firebase, db } from "../lib/firebase";
 import "../styles/SignAndLogin.scss";
 import { useDataLayerValue } from "../DataLayer";
@@ -6,8 +6,8 @@ import dino1Img from "../img/dino1.png";
 import bubbleImg from "../img/bubble.png";
 import { motion } from "framer-motion";
 
-function Login({ setAppUserLogin }) {
-  const [{}, dispatch] = useDataLayerValue();
+function Login() {
+  const [, dispatch] = useDataLayerValue();
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [error, setError] = useState("");
@@ -18,6 +18,8 @@ function Login({ setAppUserLogin }) {
   const [registerProfileImage, setRegisterProfileImage] = useState("");
   const [initials, setInitials] = useState(false);
   const [registerIinitials, setRegisterInitials] = useState(false);
+  const emailRef = useRef();
+  const passwordRef = useRef();
 
   const loginHandler = (e) => {
     e.preventDefault();
@@ -103,6 +105,12 @@ function Login({ setAppUserLogin }) {
         // ..
       });
   };
+  const demoLogin = () => {
+    emailRef.current.value = "dino@demo.com";
+    passwordRef.current.value = "111111";
+    setLoginEmail("dino@demo.com");
+    setLoginPassword("111111");
+  };
   useEffect(() => {
     if (loginEmail && loginPassword) {
       setInitials(true);
@@ -127,9 +135,11 @@ function Login({ setAppUserLogin }) {
             transition={{ duration: 0.6, type: "spring" }}
           >
             <h1>Login</h1>
+            <p onClick={() => demoLogin()}>demo login</p>
 
             <form autoComplete="on">
               <input
+                ref={emailRef}
                 type="text"
                 id="email"
                 name="email"
@@ -137,6 +147,7 @@ function Login({ setAppUserLogin }) {
                 onChange={(e) => setLoginEmail(e.target.value)}
               />
               <input
+                ref={passwordRef}
                 type="password"
                 placeholder="Password"
                 id="password"

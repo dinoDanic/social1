@@ -6,6 +6,7 @@ import { Avatar } from "@material-ui/core";
 import { useDataLayerValue } from "../DataLayer";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import { Link } from "react-router-dom";
+import MiniMenu from "../components/MiniMenu";
 function BigPost({
   postId,
   setIsOpen,
@@ -17,10 +18,12 @@ function BigPost({
   commentList,
   likeList,
   userId,
+  trueUser,
 }) {
-  const [{ user_username, user_profileImage }, dispatch] = useDataLayerValue();
+  const [{ user_username, user_profileImage }] = useDataLayerValue();
   const [addComment, setAddComment] = useState("");
   const [colorLike, setColorLike] = useState("");
+
   const inputComment = useRef();
   const commentHanlder = (e) => {
     e.preventDefault();
@@ -60,23 +63,26 @@ function BigPost({
     } else {
       setColorLike("gray");
     }
-  }, [likeList]);
+  }, [likeList, user_username]);
   return (
     <>
       <div onClick={() => setIsOpen(!isOpen)} className="bigPost__layer"></div>
       <motion.div className="bigPost" layoutId={postId}>
-        <motion.div
-          className="bigPost__likes"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <InsertEmoticonIcon
-            fontSize="large"
-            className="bigPost__like-button"
-            style={{ color: colorLike }}
-            onClick={() => likeHandler()}
-          />
-        </motion.div>
+        <div className="bigPost__topControls">
+          <motion.div
+            className="bigPost__likes"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <InsertEmoticonIcon
+              fontSize="large"
+              className="bigPost__like-button"
+              style={{ color: colorLike }}
+              onClick={() => likeHandler()}
+            />
+          </motion.div>
+          {trueUser && <MiniMenu postId={postId} />}
+        </div>
         <div className="bigPost__content">
           {image && (
             <div className="bigPost__image">

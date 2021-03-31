@@ -1,11 +1,10 @@
 import React, { lazy, Suspense } from "react";
 import "../styles/Site.scss";
-import Posts from "./Posts";
 import Sidebar from "../components/Sidebar";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Acc from "./Acc";
 import { AnimatePresence } from "framer-motion";
 import UserProfile from "./UserProfile";
+import Buddys from "../components/Buddys";
 
 const posts = lazy(() => import("./Posts"));
 const acc = lazy(() => import("./Acc"));
@@ -30,7 +29,7 @@ function Site() {
                 </AnimatePresence>
               </div>
               <div className="sec3">
-                <h1>Buddys</h1>
+                <Buddys />
               </div>
             </Suspense>
           )}

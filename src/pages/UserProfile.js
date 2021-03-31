@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import "../styles/UserProfile.scss";
 import { db } from "../lib/firebase";
+import { useLocation } from "react-router-dom";
 import { pageVariants } from "../functions/pageVariants";
 import { AnimateSharedLayout, motion } from "framer-motion";
 import Post from "../components/Post";
 import { Button } from "@material-ui/core";
-import "../styles/UserProfile.scss";
 import SportsKabaddiIcon from "@material-ui/icons/SportsKabaddi";
 import { useDataLayerValue } from "../DataLayer";
 
 function UserProfile() {
-  const [{ user_userId, user_username }, dispatch] = useDataLayerValue();
+  const [{ user_userId, user_username }] = useDataLayerValue();
   const location = useLocation();
   const [profileUsername, setProfileUsername] = useState("");
   const [postList, setPostList] = useState([]);
@@ -19,36 +19,26 @@ function UserProfile() {
     let currentLocation = location.pathname.split("/")[2];
     return currentLocation;
   };
-  const getUser = () => {
-    db.collection("users")
-      .where("userId", "==", `${getCurrentLocation()}`)
-      .get()
-      .then((data) => {
-        data.forEach((doc) => {
-          setProfileUsername(doc.data().username);
-        });
-      });
-  };
-  const getUsersPosts = () => {
-    db.collection("posts")
-      .where("userId", "==", `${getCurrentLocation()}`)
-      .onSnapshot((data) => {
-        var list = [];
-        data.forEach((doc) => {
-          list.push(doc.data());
-        });
-        setPostList(list);
-      });
-  };
+
   const addABuddy = () => {
+    console.log("ADDING BUDDY");
     db.collection("users").doc(user_userId).collection("buddys").doc().set({
       buddyId: getCurrentLocation(),
       buddyName: profileUsername,
     });
-    checkBuddys();
+    db.collection("users")
+      .doc(getCurrentLocation())
+      .collection("buddys")
+      .doc()
+      .set({
+        buddyId: user_userId,
+        buddyName: user_username,
+      });
+    checkBuddy();
+    createChatRoom();
   };
   const removeBuddy = () => {
-    console.log("remove buddy");
+    console.log("REMOVE BUDDY");
     db.collection("users")
       .doc(user_userId)
       .collection("buddys")
@@ -57,40 +47,90 @@ function UserProfile() {
       .then((data) => {
         data.forEach((doc) => {
           doc.ref.delete();
-          console.log("DELETE");
-          setCheckBuddyStatus(false);
+        });
+        checkBuddy();
+      });
+    db.collection("users")
+      .doc(getCurrentLocation())
+      .collection("buddys")
+      .where("buddyId", "==", user_userId)
+      .get()
+      .then((data) => {
+        data.forEach((doc) => {
+          doc.ref.delete();
+        });
+        checkBuddy();
+      });
+    removeChatRoom();
+  };
+  const createChatRoom = () => {
+    console.log("creating chat room");
+    db.collection("chatRoom").add({
+      chatUserIds: [getCurrentLocation(), user_userId],
+    });
+  };
+  const removeChatRoom = () => {
+    console.log("removing chat room");
+    db.collection("chatRoom")
+      .where("chatUserIds", "array-contains", getCurrentLocation(), user_userId)
+      .get()
+      .then((data) => {
+        data.forEach((doc) => {
+          if (doc.exists) {
+            doc.ref.delete();
+          }
+          checkBuddy();
         });
       });
   };
-  const checkBuddys = () => {
+  const checkBuddy = () => {
     if (user_userId) {
+      console.log("CHEKING BUDDY");
       db.collection("users")
         .doc(user_userId)
         .collection("buddys")
+        .where("buddyId", "==", `${getCurrentLocation()}`)
         .get()
         .then((data) => {
           data.forEach((doc) => {
-            let buddy = doc.data().buddyName;
-            console.log(buddy);
-            if (buddy.includes(profileUsername)) {
-              console.log("setting to true");
-              setCheckBuddyStatus(true);
-            } else {
-              console.log("setting to false");
-              setCheckBuddyStatus(false);
-            }
+            console.log("the same name");
+            setCheckBuddyStatus(true);
           });
         });
+      console.log("not the same name lol");
+      setCheckBuddyStatus(false);
     }
   };
   useEffect(() => {
-    checkBuddys();
-  }, []);
+    checkBuddy();
+  }, [setCheckBuddyStatus, user_userId]);
 
   useEffect(() => {
-    getUser();
+    const getUser = () => {
+      db.collection("users")
+        .where("userId", "==", `${getCurrentLocation()}`)
+        .get()
+        .then((data) => {
+          data.forEach((doc) => {
+            setProfileUsername(doc.data().username);
+          });
+        });
+    };
+    const getUsersPosts = () => {
+      db.collection("posts")
+        .where("userId", "==", `${getCurrentLocation()}`)
+        .onSnapshot((data) => {
+          var list = [];
+          data.forEach((doc) => {
+            list.push(doc.data());
+          });
+          setPostList(list);
+        });
+    };
     getUsersPosts();
-  }, [location]);
+    getUser();
+  }, []);
+
   return (
     <motion.div
       variants={pageVariants}
@@ -127,7 +167,7 @@ function UserProfile() {
               variant="contained"
               color="secondary"
             >
-              <SportsKabaddiIcon /> <p>Remove Buddy :(</p>
+              <SportsKabaddiIcon fontSize="large" /> <p>Remove Buddy</p>
             </Button>
           ) : (
             <Button
@@ -135,7 +175,7 @@ function UserProfile() {
               variant="contained"
               color="primary"
             >
-              <SportsKabaddiIcon /> <p>add a Buddy</p>
+              <SportsKabaddiIcon fontSize="large" /> <p>add a Buddy</p>
             </Button>
           )}
         </div>

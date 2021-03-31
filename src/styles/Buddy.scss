@@ -1,0 +1,44 @@
+.buddy {
+  margin: 10px 0;
+  background: white;
+  border-radius: 20px;
+  padding: 8px 15px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  h3 {
+  }
+}
+.buddy__chat {
+  position: fixed;
+  bottom: 0px;
+  right: 20px;
+  width: 300px;
+  height: 300px;
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+}
+.buddy__chat--send {
+  width: 100%;
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+
+  padding: 0 20px;
+  box-sizing: border-box;
+
+  form {
+    display: flex;
+  }
+  input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid gray;
+    border-radius: 10px 0 0 10px;
+  }
+  button {
+    width: 60px;
+    border: 1px solid gray;
+    border-radius: 0 10px 10px 0;
+  }
+}
