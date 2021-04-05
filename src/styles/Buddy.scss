@@ -1,44 +1,101 @@
 .buddy {
-  margin: 10px 0;
   background: white;
-  border-radius: 20px;
-  padding: 8px 15px;
-  margin-bottom: 10px;
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
-  h3 {
+  position: relative;
+  z-index: 50;
+  transition: 0.2s ease-in-out box-shadow;
+  transform: scale(1);
+  h4 {
+    font-size: 0.8rem;
+  }
+  &:hover {
+    box-shadow: inset 2px 3px 6px rgba(0, 0, 0, 0.2);
+  }
+}
+.buddy__holder {
+  position: relative;
+  margin-top: 10px;
+  &:first-child {
+    margin-top: 0px;
+  }
+}
+.buddy__hole {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  background: #eaecf2;
+  position: absolute;
+  border-radius: 100%;
+  box-shadow: inset 2px 3px 6px rgba(0, 0, 0, 0.08);
+  transition: 0.2s ease-in-out box-shadow;
+  top: 0;
+  &:hover {
+    box-shadow: inset 2px 3px 6px rgba(0, 0, 0, 0.2);
+  }
+}
+.buddy__chatHolder {
+  position: fixed;
+  right: 100px;
+  bottom: 20px;
+  z-index: 50;
+  h4 {
+    font-size: 0.8rem;
+  }
+  ::-webkit-scrollbar {
+    width: 0px;
   }
 }
 .buddy__chat {
-  position: fixed;
-  bottom: 0px;
-  right: 20px;
   width: 300px;
-  height: 300px;
+  height: 350px;
   background: white;
   border-radius: 20px;
-  padding: 20px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 20px -14px black;
 }
 .buddy__chat--send {
-  width: 100%;
-  position: absolute;
-  bottom: 10px;
-  left: 0;
-
-  padding: 0 20px;
   box-sizing: border-box;
+  margin-top: 10px;
+  margin-bottom: 10px;
 
   form {
     display: flex;
   }
   input {
     width: 100%;
-    padding: 5px;
-    border: 1px solid gray;
-    border-radius: 10px 0 0 10px;
+    padding: 10px 15px;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    box-shadow: 0 0 20px -14px black;
   }
   button {
     width: 60px;
     border: 1px solid gray;
     border-radius: 0 10px 10px 0;
+    opacity: 0;
+    position: absolute;
   }
+}
+.buddy__chatWith {
+  border-radius: 20px 20px 0 0;
+  padding: 8px 20px;
+  text-align: center;
+}
+.buddy__displayChat {
+  overflow-y: scroll;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+.scrollTo {
+  margin-top: 10px;
 }

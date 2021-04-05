@@ -8,7 +8,7 @@ import "../styles/Acc.scss";
 
 function Acc() {
   const [
-    { user_username, user_profileImage, userData },
+    { user_username, user_profileImage, userData, user_userId },
     dispatch,
   ] = useDataLayerValue();
   const [avatarImage, setAvatarImage] = useState(false);
@@ -105,6 +105,10 @@ function Acc() {
             ) : (
               <p>{user_profileImage}</p>
             )}
+          </div>
+          <div className="acc__userId">
+            <h3>User ID</h3>
+            <p>{user_userId}</p>
           </div>
         </div>
         {valueBtn ? (

@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "../styles/Buddys.scss";
 import { db } from "../lib/firebase";
 import { useDataLayerValue } from "../DataLayer";
 import Buddy from "../components/Buddy";
+import { AnimateSharedLayout, motion } from "framer-motion";
 
 function Buddys() {
   const [{ user_userId }] = useDataLayerValue();
   const [buddyList, setBuddyList] = useState([]);
+  const hereChat = useRef();
+  const buddysList = useRef();
 
   useEffect(() => {
     if (user_userId) {
@@ -23,23 +26,34 @@ function Buddys() {
     }
   }, [user_userId]);
 
+  useEffect(() => {
+    const countChats = () => {
+      console.log(buddysList.current.buddy__holder);
+    };
+    countChats();
+  }, [buddyList, setBuddyList]);
+
   return (
-    <div className="buddys">
-      <h1>Buddys</h1>
-      {buddyList && (
-        <div className="buddys__list">
-          {buddyList.map((data) => {
-            return (
-              <Buddy
-                key={Math.random()}
-                buddyId={data.buddyId}
-                buddyName={data.buddyName}
-              />
-            );
-          })}
-        </div>
-      )}
-    </div>
+    <motion.div className="buddys">
+      <h4>Buddies</h4>
+      <AnimateSharedLayout type="crossfade">
+        {buddyList && (
+          <>
+            <motion.div className="buddys__list" ref={buddysList}>
+              {buddyList.map((data) => {
+                return (
+                  <Buddy
+                    key={Math.random()}
+                    buddyId={data.buddyId}
+                    buddyName={data.buddyName}
+                  />
+                );
+              })}
+            </motion.div>
+          </>
+        )}
+      </AnimateSharedLayout>
+    </motion.div>
   );
 }
 

@@ -63,16 +63,40 @@ function UserProfile() {
       });
     removeChatRoom();
   };
+  const createChatId = () => {
+    if (getCurrentLocation() < user_userId) {
+      return getCurrentLocation() + user_userId;
+    }
+    if (getCurrentLocation() > user_userId) {
+      return user_userId + getCurrentLocation();
+    }
+  };
   const createChatRoom = () => {
     console.log("creating chat room");
     db.collection("chatRoom").add({
-      chatUserIds: [getCurrentLocation(), user_userId],
+      chatUserIds: createChatId(),
     });
   };
+  /* 
   const removeChatRoom = () => {
     console.log("removing chat room");
     db.collection("chatRoom")
       .where("chatUserIds", "array-contains", getCurrentLocation(), user_userId)
+      .get()
+      .then((data) => {
+        data.forEach((doc) => {
+          if (doc.exists) {
+            doc.ref.delete();
+          }
+          checkBuddy();
+        });
+      });
+  }; */
+
+  const removeChatRoom = () => {
+    console.log("removing chat room", createChatId());
+    db.collection("chatRoom")
+      .where("chatUserIds", "==", createChatId())
       .get()
       .then((data) => {
         data.forEach((doc) => {
@@ -97,7 +121,7 @@ function UserProfile() {
             setCheckBuddyStatus(true);
           });
         });
-      console.log("not the same name lol");
+      console.log("not the same name");
       setCheckBuddyStatus(false);
     }
   };

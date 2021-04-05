@@ -2,15 +2,21 @@ import React, { useEffect, useRef, useState } from "react";
 import { db, firebasetime } from "../lib/firebase";
 import { useDataLayerValue } from "../DataLayer";
 import "../styles/Buddy.scss";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import Message from "../components/Message";
 
 function Buddy({ buddyId, buddyName }) {
+  const [{ user_userId }] = useDataLayerValue();
   const [openBuddyChat, setOpenBuddyChat] = useState(false);
   const [chatMessage, setChatMessage] = useState("");
   const [currentChatId, setCurrentChatId] = useState("");
   const [messageList, setMessageList] = useState([]);
   const [roomCheck, setRoomCheck] = useState(false);
   const inputMessage = useRef();
+  const displayChat = useRef();
+  const bottomRef = useRef();
+  const buddyHolder = useRef();
+
   const startChat = () => {
     setOpenBuddyChat(!openBuddyChat);
     if (!openBuddyChat) {
@@ -18,11 +24,9 @@ function Buddy({ buddyId, buddyName }) {
     }
   };
 
-  const [{ user_userId }] = useDataLayerValue();
-
   const handleSendMsg = (e) => {
     e.preventDefault();
-    if (currentChatId) {
+    if (currentChatId && inputMessage.current.value != "") {
       db.collection("chatRoom")
         .doc(currentChatId)
         .collection("messeges")
@@ -39,82 +43,134 @@ function Buddy({ buddyId, buddyName }) {
     inputMessage.current.value = "";
     loadMessages();
   };
-
-  const createChatRoom = () => {
-    console.log("creating chat room");
-    db.collection("chatRoom").add({
-      chatUserIds: [buddyId, user_userId],
-    });
+  const getChatId = () => {
+    if (buddyId < user_userId) {
+      return buddyId + user_userId;
+    }
+    if (buddyId > user_userId) {
+      return user_userId + buddyId;
+    }
   };
-
   const checkRoom = () => {
-    console.log("CHEKING ROOM");
     db.collection("chatRoom")
-      .where("chatUserIds", "array-contains", buddyId, user_userId)
+      .where("chatUserIds", "==", getChatId())
       .get()
       .then((data) => {
         setRoomCheck(true);
         data.forEach((doc) => {
           if (doc.exists) {
             setCurrentChatId(doc.id);
-            console.log("hey you have a chatRoom with id: ", doc.id);
-            return;
+            console.log("hey you have a chatRoom with id:", doc.id);
           }
         });
       });
   };
+
   useEffect(() => {
     console.log("loading messeges");
     loadMessages();
   }, [currentChatId]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [currentChatId, openBuddyChat, messageList]);
+
   const loadMessages = () => {
     if (currentChatId) {
       db.collection("chatRoom")
         .doc(currentChatId)
         .collection("messeges")
         .orderBy("timestamp", "asc")
-        .limit(12)
         .onSnapshot((data) => {
           let list = [];
           data.forEach((doc) => {
-            list.push(doc.data().message);
+            list.push(doc.data());
           });
           setMessageList(list);
         });
     }
   };
+  const scrollToBottom = () => {
+    if (openBuddyChat) {
+      bottomRef.current.scrollIntoView({
+        /* behavior: "smooth", */
+        block: "start",
+      });
+    }
+  };
+
+  useEffect(() => {
+    const getChatWindows = () => {
+      const msg = document.querySelector(".buddy__chatHolder");
+      if (msg) {
+        const msgParent = msg.parentElement;
+        const msgPrentChildren = msgParent.getElementsByClassName(
+          "buddy__chatHolder"
+        );
+        let msgCount = msgPrentChildren.length;
+        let margin = 110;
+        for (let i = 0; i < msgCount; i++) {
+          msgPrentChildren[i].style.right = `${margin}px`;
+          margin = margin + 320;
+        }
+      }
+    };
+    getChatWindows();
+  }, [openBuddyChat, setOpenBuddyChat]);
+
   return (
     <>
       <motion.div
+        className="buddy__holder"
         onClick={() => startChat()}
-        className="buddy"
-        key={Math.random()}
-        whileHover={{ scale: 1.03 }}
-        whileTap={{ scale: 0.97 }}
+        drag="y"
+        dragConstraints={{ top: 0, bottom: 0 }}
+        dragElastic={0.3}
       >
-        <h4>{buddyName}</h4>
-        <p>{buddyId}</p>
+        <motion.div className="buddy__hole"></motion.div>
+        <motion.div
+          onClick={() => startChat()}
+          className="buddy"
+          layoutId={buddyId}
+        >
+          <motion.h4>{buddyName}</motion.h4>
+        </motion.div>
       </motion.div>
-      {openBuddyChat && (
-        <div className="buddy__chat">
-          chat with {buddyName}
-          <div className="buddy__displayChat">
-            {messageList.map((data) => {
-              return <p key={Math.random()}>{data}</p>;
-            })}
-          </div>
-          <div className="buddy__chat--send">
-            <form>
-              <input
-                ref={inputMessage}
-                type="text"
-                onChange={(e) => setChatMessage(e.target.value)}
-              />
-              <button onClick={handleSendMsg}>send</button>
-            </form>
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {openBuddyChat && (
+          <motion.div className="buddy__chatHolder" layoutId={buddyId}>
+            <div className="buddy__chatWith">
+              <motion.h4>{buddyName}</motion.h4>
+            </div>
+            <div className="buddy__chat">
+              <div className="buddy__displayChat" ref={displayChat}>
+                {messageList.map((data) => {
+                  return (
+                    <Message
+                      key={Math.random()}
+                      message={data.message}
+                      timestamp={data.timestamp}
+                      senderId={data.id}
+                    />
+                  );
+                })}
+                <div className="scrollTo" ref={bottomRef}></div>
+              </div>
+            </div>
+            <div className="buddy__chat--send">
+              <form>
+                <input
+                  ref={inputMessage}
+                  type="text"
+                  onChange={(e) => setChatMessage(e.target.value)}
+                  placeholder="type here..."
+                />
+                <button onClick={handleSendMsg}>send</button>
+              </form>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

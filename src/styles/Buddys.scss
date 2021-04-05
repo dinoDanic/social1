@@ -1,10 +1,17 @@
 .buddys {
-  h1 {
-    text-align: center;
-  }
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  text-align: center;
 }
 .buddys__list {
-  margin-top: 20px;
+  margin-top: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  background: #eaebf0;
+  border-radius: 20px;
 }
 .buddys__buddy {
   margin: 10px 0;
@@ -15,4 +22,10 @@
   cursor: pointer;
   h3 {
   }
+}
+.buddys__hereChat {
+  position: fixed;
+  bottom: 20px;
+  right: 200px;
+  width: auto;
 }
