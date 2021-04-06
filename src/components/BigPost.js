@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { db, firebasetime } from "../lib/firebase";
+import { db, firebasetime, FF } from "../lib/firebase";
 import { motion } from "framer-motion";
 import "../styles/BigPost.scss";
 import { Avatar } from "@material-ui/core";
@@ -23,7 +23,7 @@ function BigPost({
   const [{ user_username, user_profileImage }] = useDataLayerValue();
   const [addComment, setAddComment] = useState("");
   const [colorLike, setColorLike] = useState("");
-
+  console.log("HITTING BIG POST");
   const inputComment = useRef();
   const commentHanlder = (e) => {
     e.preventDefault();
@@ -48,6 +48,14 @@ function BigPost({
             doc.ref.delete();
           });
         });
+      /* db.collection("posts")
+        .doc(postId)
+        .set(
+          {
+            likes: FF.FieldValue.arrayRemove(user_username),
+          },
+          { merge: true }
+        ); */
     } else {
       db.collection("posts").doc(postId).collection("likes").doc().set(
         {
@@ -55,8 +63,17 @@ function BigPost({
         },
         { merge: true }
       );
+      /*       setOneLike(); */
     }
   };
+  /*  const setOneLike = () => {
+    db.collection("posts").doc(postId).set(
+      {
+        likes: FF,
+      },
+      { merge: true }
+    );
+  }; */
   useEffect(() => {
     if (likeList.includes(user_username)) {
       setColorLike("#6f87ff");
@@ -95,7 +112,7 @@ function BigPost({
               layoutId={`postUser ${postId}`}
             >
               <Avatar className="bigPost__avatar" src={userAvatar} />
-              <Link to={`user/${userId}`}>
+              <Link to={`/user/${userId}`}>
                 <h3>{userName}</h3>
               </Link>
             </motion.div>

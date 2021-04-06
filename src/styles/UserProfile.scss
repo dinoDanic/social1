@@ -1,6 +1,16 @@
+@import "Theme.scss";
 .userProfile__addUser {
   display: flex;
   justify-content: center;
+  .MuiButton-containedPrimary {
+    background: $mainColor;
+    &:hover {
+      background: $secColor;
+    }
+  }
+  .MuiButton-containedSecondary {
+    background: $alertColor;
+  }
   button {
     border-radius: 10px;
     p {

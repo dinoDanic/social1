@@ -1,0 +1,17 @@
+.notifications {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  .MuiButtonBase-root {
+    border-radius: 100%;
+    width: 50px;
+    height: 60px;
+    padding: 0;
+    margin: 0;
+    background: white;
+    border: none;
+  }
+  .MuiSvgIcon-root {
+    color: #666;
+  }
+}

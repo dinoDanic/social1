@@ -1,0 +1,48 @@
+@import "Theme.scss";
+.user {
+  min-width: 270px;
+  background: white;
+  margin-right: 20px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+
+  &:last-child {
+    margin-right: 0px;
+  }
+}
+.user__user {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.user__avatar {
+  .MuiAvatar-root {
+    box-shadow: $shadow;
+    width: 100px;
+    height: 100px;
+  }
+}
+.user__name {
+  margin-top: 10px;
+}
+.user__info {
+  display: flex;
+  justify-content: space-around;
+  margin: 20px 0;
+  p {
+    text-align: center;
+  }
+}
+.user__viewProfile {
+  display: flex;
+  justify-content: center;
+  .MuiButtonBase-root {
+    background: $mainColor;
+    color: white;
+    text-decoration: none;
+    text-transform: none;
+    border-radius: 20px;
+  }
+}

@@ -7,6 +7,7 @@ import { AnimateSharedLayout, motion } from "framer-motion";
 import Post from "../components/Post";
 import { Button } from "@material-ui/core";
 import SportsKabaddiIcon from "@material-ui/icons/SportsKabaddi";
+import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
 import { useDataLayerValue } from "../DataLayer";
 
 function UserProfile() {
@@ -15,6 +16,7 @@ function UserProfile() {
   const [profileUsername, setProfileUsername] = useState("");
   const [postList, setPostList] = useState([]);
   const [checkBuddyStatus, setCheckBuddyStatus] = useState();
+  const [checkIfUserIsUser, setCheckIfUserIsUser] = useState(false);
   const getCurrentLocation = () => {
     let currentLocation = location.pathname.split("/")[2];
     return currentLocation;
@@ -125,8 +127,16 @@ function UserProfile() {
       setCheckBuddyStatus(false);
     }
   };
+  const checkUserUser = () => {
+    if (user_userId === getCurrentLocation()) {
+      setCheckIfUserIsUser(true);
+    } else {
+      setCheckIfUserIsUser(false);
+    }
+  };
   useEffect(() => {
     checkBuddy();
+    checkUserUser();
   }, [setCheckBuddyStatus, user_userId]);
 
   useEffect(() => {
@@ -184,25 +194,27 @@ function UserProfile() {
             </div>
           </AnimateSharedLayout>
         )}
-        <div className="userProfile__addUser">
-          {checkBuddyStatus ? (
-            <Button
-              onClick={() => removeBuddy()}
-              variant="contained"
-              color="secondary"
-            >
-              <SportsKabaddiIcon fontSize="large" /> <p>Remove Buddy</p>
-            </Button>
-          ) : (
-            <Button
-              onClick={() => addABuddy()}
-              variant="contained"
-              color="primary"
-            >
-              <SportsKabaddiIcon fontSize="large" /> <p>add a Buddy</p>
-            </Button>
-          )}
-        </div>
+        {!checkIfUserIsUser && (
+          <div className="userProfile__addUser">
+            {checkBuddyStatus ? (
+              <Button
+                onClick={() => removeBuddy()}
+                variant="contained"
+                color="secondary"
+              >
+                <EmojiPeopleIcon fontSize="large" /> <p>Remove Buddy</p>
+              </Button>
+            ) : (
+              <Button
+                onClick={() => addABuddy()}
+                variant="contained"
+                color="primary"
+              >
+                <EmojiPeopleIcon fontSize="large" /> <p>add a Buddy</p>
+              </Button>
+            )}
+          </div>
+        )}
       </div>
     </motion.div>
   );

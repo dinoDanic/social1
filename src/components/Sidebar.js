@@ -57,10 +57,10 @@ function Sidebar() {
               <ArrowForwardIosIcon fontSize="small" />
             </li>
           </Link>
-          <Link to="#">
+          <Link to="/findbuddies">
             <li>
               <EmojiPeopleIcon fontSize="small" />
-              <p>Friends</p>
+              <p>Find Buddies</p>
               <ArrowForwardIosIcon fontSize="small" />
             </li>
           </Link>

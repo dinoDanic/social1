@@ -1,7 +1,13 @@
+@import "Theme.scss";
+.sidebar {
+  position: fixed;
+  width: 226px;
+}
 .sidebar__user {
   display: flex;
   align-items: center;
   margin-top: -10px;
+
   h1 {
     margin-left: 10px;
   }
@@ -26,7 +32,7 @@
     align-items: center;
     padding: 10px 15px;
     background: #eaf4ff;
-    background: #6f87ff;
+    background: $mainColor;
     color: #333;
     color: white;
     font-size: 0.8rem;
@@ -37,7 +43,7 @@
     outline: none;
     &:hover {
       color: white !important;
-      background: #404c8b;
+      background: $secColor;
     }
     .MuiSvgIcon-root {
       width: 45px !important;
@@ -69,8 +75,11 @@
       font-weight: 700;
     }
     &:hover {
-      background: #6f87ff;
+      background: $mainColor;
       color: white !important;
+      p {
+        color: white;
+      }
     }
   }
   a {

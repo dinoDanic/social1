@@ -4,6 +4,7 @@ import { useDataLayerValue } from "../DataLayer";
 import "../styles/Buddy.scss";
 import { AnimatePresence, motion } from "framer-motion";
 import Message from "../components/Message";
+import { Link } from "react-router-dom";
 
 function Buddy({ buddyId, buddyName }) {
   const [{ user_userId }] = useDataLayerValue();
@@ -67,7 +68,6 @@ function Buddy({ buddyId, buddyName }) {
   };
 
   useEffect(() => {
-    console.log("loading messeges");
     loadMessages();
   }, [currentChatId]);
 
@@ -140,7 +140,9 @@ function Buddy({ buddyId, buddyName }) {
         {openBuddyChat && (
           <motion.div className="buddy__chatHolder" layoutId={buddyId}>
             <div className="buddy__chatWith">
-              <motion.h4>{buddyName}</motion.h4>
+              <Link to={`/users/${buddyId}`}>
+                <motion.h4>{buddyName}</motion.h4>
+              </Link>
             </div>
             <div className="buddy__chat">
               <div className="buddy__displayChat" ref={displayChat}>
