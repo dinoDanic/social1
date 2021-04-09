@@ -3,7 +3,6 @@
   display: flex;
   width: 100%;
   flex-wrap: wrap-reverse;
-  /* background: rgb(243, 243, 243); */
 }
 .sec1,
 .sec2,
@@ -18,10 +17,15 @@
   box-shadow: 0 0 20px -14px black;
   height: 100vh;
   z-index: 100;
+  position: fixed;
+  width: 230px;
+  top: 0;
 }
 .sec2 {
-  flex: 0.8;
+  flex: 0.9;
+  margin-left: 270px;
   padding: 40px 0 40px 40px;
+  height: 200vh;
 }
 .sec3 {
   flex: 0.1;

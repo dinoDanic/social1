@@ -21,9 +21,7 @@ function BigPost({
   trueUser,
   pathId,
 }) {
-  const [
-    { user_username, user_profileImage, user_userId },
-  ] = useDataLayerValue();
+  const [{ user_username, user_profileImage }] = useDataLayerValue();
   const [addComment, setAddComment] = useState("");
   const [colorLike, setColorLike] = useState("");
 
@@ -51,6 +49,14 @@ function BigPost({
             doc.ref.delete();
           });
         });
+      /* db.collection("posts")
+        .doc(postId)
+        .set(
+          {
+            likes: FF.FieldValue.arrayRemove(user_username),
+          },
+          { merge: true }
+        ); */
     } else {
       db.collection("posts").doc(postId).collection("likes").doc().set(
         {
@@ -58,16 +64,17 @@ function BigPost({
         },
         { merge: true }
       );
-      db.collection("not_likes").doc(postId).set({
-        likedPostId: postId,
-        likedFrom: user_username,
-        likedFromId: user_userId,
-        likedToId: userId,
-        read: false,
-      });
+      /*       setOneLike(); */
     }
   };
-
+  /*  const setOneLike = () => {
+    db.collection("posts").doc(postId).set(
+      {
+        likes: FF,
+      },
+      { merge: true }
+    );
+  }; */
   useEffect(() => {
     if (likeList.includes(user_username)) {
       setColorLike("#6f87ff");
@@ -78,7 +85,7 @@ function BigPost({
   return (
     <>
       <div onClick={() => setIsOpen(!isOpen)} className="bigPost__layer"></div>
-      <motion.div className="bigPost" layoutId={postId}>
+      <motion.div className="bigPost" layoutId={userId}>
         <div className="bigPost__topControls">
           <motion.div
             className="bigPost__likes"
@@ -97,13 +104,13 @@ function BigPost({
         <div className="bigPost__content">
           {image && (
             <div className="bigPost__image">
-              <motion.img layoutId={`image ${postId}`} src={image} alt="" />
+              <motion.img layoutId={`image ${userId}`} src={image} alt="" />
             </div>
           )}
           <div className="bigPost__post">
             <motion.div
               className="bigPost__user"
-              layoutId={`postUser ${postId}`}
+              layoutId={`postUser ${userId}`}
             >
               <Avatar className="bigPost__avatar" src={userAvatar} />
               <Link to={`/user/${userId}`}>
@@ -111,7 +118,7 @@ function BigPost({
               </Link>
             </motion.div>
             <div className="bigPost__postContent">
-              <motion.p layoutId={`postText ${postId}`}>{postText}</motion.p>
+              <motion.p layoutId={`postText ${userId}`}>{postText}</motion.p>
             </div>
           </div>
         </div>

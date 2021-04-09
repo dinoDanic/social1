@@ -7,9 +7,12 @@ import { useDataLayerValue } from "../DataLayer";
 import CommentOutlinedIcon from "@material-ui/icons/CommentOutlined";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import BigPost from "./BigPost";
+import { Link, useLocation } from "react-router-dom";
 
 function Post({ postText, image, postId, userId }) {
-  const [{ user_username, user_userId }] = useDataLayerValue();
+  const [
+    { user_username, user_userId, currentPostOpenId },
+  ] = useDataLayerValue();
   const [commentList, setCommentList] = useState([]);
   const [commentNumber, setCommentNumber] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
@@ -18,9 +21,18 @@ function Post({ postText, image, postId, userId }) {
   const [userAvatar, setUserAvatar] = useState("");
   const [userName, setUserName] = useState("");
   const [trueUser, setTrueUser] = useState(false);
+  const location = useLocation();
+  const pathId = location.pathname.split("/")[2];
 
   const toggleOpen = () => setIsOpen(!isOpen);
 
+  useEffect(() => {
+    if (currentPostOpenId === postId) {
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
+    }
+  }, [pathId, postId]);
   useEffect(() => {
     if (isOpen) {
       const getComments = () => {
@@ -37,14 +49,16 @@ function Post({ postText, image, postId, userId }) {
           });
       };
       const isThisTrueUser = () => {
-        db.collection("posts")
-          .doc(postId)
-          .get()
-          .then((data) => {
-            if (data.data().userId === user_userId) {
-              setTrueUser(true);
-            }
-          });
+        if (postId) {
+          db.collection("posts")
+            .doc(postId)
+            .get()
+            .then((data) => {
+              if (data.data().userId === user_userId) {
+                setTrueUser(true);
+              }
+            });
+        }
       };
       getComments();
       isThisTrueUser();
@@ -117,6 +131,7 @@ function Post({ postText, image, postId, userId }) {
 
   return (
     <>
+      {/*  <Link to={`/post/${postId}`}> */}
       <motion.div
         layoutId={postId}
         onClick={toggleOpen}
@@ -166,7 +181,27 @@ function Post({ postText, image, postId, userId }) {
           </div>
         </div>
       </motion.div>
+      {/*    </Link> */}
+
       <AnimatePresence>
+        {isOpen && (
+          <BigPost
+            pathId={pathId}
+            userId={userId}
+            likeList={likeList}
+            userName={userName}
+            userAvatar={userAvatar}
+            postId={postId}
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            image={image}
+            postText={postText}
+            commentList={commentList}
+            trueUser={trueUser}
+          />
+        )}
+      </AnimatePresence>
+      {/* <AnimatePresence>
         {isOpen && (
           <>
             <BigPost
@@ -184,7 +219,7 @@ function Post({ postText, image, postId, userId }) {
             />
           </>
         )}
-      </AnimatePresence>
+      </AnimatePresence> */}
     </>
   );
 }

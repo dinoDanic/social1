@@ -26,13 +26,6 @@ function Buddys() {
     }
   }, [user_userId]);
 
-  useEffect(() => {
-    const countChats = () => {
-      console.log(buddysList.current.buddy__holder);
-    };
-    countChats();
-  }, [buddyList, setBuddyList]);
-
   return (
     <motion.div className="buddys">
       <h4>Buddies</h4>
