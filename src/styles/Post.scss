@@ -184,3 +184,11 @@ $paddingSmall: 10px;
     }
   }
 }
+// MOBILE
+@media (max-width: 600px) {
+  .post {
+    min-width: 100%;
+    box-sizing: border-box;
+    margin: 10px 0px;
+  }
+}

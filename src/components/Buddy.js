@@ -140,7 +140,7 @@ function Buddy({ buddyId, buddyName }) {
         {openBuddyChat && (
           <motion.div className="buddy__chatHolder" layoutId={buddyId}>
             <div className="buddy__chatWith">
-              <Link to={`/users/${buddyId}`}>
+              <Link to={`/user/${buddyId}`}>
                 <motion.h4>{buddyName}</motion.h4>
               </Link>
             </div>

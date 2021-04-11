@@ -10,11 +10,14 @@
     height: 60px;
     padding: 0;
     margin: 0;
-    background: white;
+    background: $mainColor;
     border: none;
+    &:hover {
+      background-color: $mainColor;
+    }
   }
   .MuiSvgIcon-root {
-    color: #666;
+    color: white;
   }
 }
 .not__button {
@@ -25,6 +28,8 @@
 .not__window {
   background: white;
   padding: 10px;
+  max-height: 400px;
+  overflow-y: scroll;
   border-radius: 20px;
   margin-top: 10px;
   box-shadow: $shadow;

@@ -29,3 +29,9 @@
   right: 200px;
   width: auto;
 }
+// MOBILE
+@media (max-width: 600px) {
+  .buddys {
+    display: none;
+  }
+}

@@ -56,7 +56,7 @@ function User({ username, avatar, userId }) {
         </div>
       </div>
       <div className="user__viewProfile">
-        <Link to={`/users/${userId}`}>
+        <Link to={`/user/${userId}`}>
           <Button variant="contained">View Profile</Button>
         </Link>
       </div>

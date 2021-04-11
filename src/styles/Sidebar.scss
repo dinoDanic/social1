@@ -1,17 +1,19 @@
 @import "Theme.scss";
 .sidebar {
+  position: relative;
+  height: 100%;
+}
+.sidebar-small {
 }
 .sidebar__user {
   display: flex;
   align-items: center;
   margin-top: -10px;
 
-  h1 {
-    margin-left: 10px;
-  }
   .MuiAvatar-root {
     width: 60px;
     height: 60px;
+    margin-right: 10px;
   }
 }
 .sidebar__newPost {
@@ -31,7 +33,6 @@
     padding: 10px 15px;
     background: #eaf4ff;
     background: $mainColor;
-    color: #333;
     color: white;
     font-size: 0.8rem;
     box-shadow: none;
@@ -53,7 +54,9 @@
   }
 }
 .sidebar__menu {
+  border-top: 1px solid #193e5d;
   margin-top: 30px;
+
   li {
     transition: 0.2s ease all;
     list-style: none;
@@ -64,27 +67,31 @@
     color: #333;
     padding: 15px 10px;
     box-sizing: border-box;
-    border-radius: 10px;
+    border-radius: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: #a0b0bd;
     p {
-      color: #333;
+      color: #a0b0bd;
       font-weight: 700;
     }
     &:hover {
-      background: $mainColor;
+      background: #203f58;
       color: white !important;
       p {
         color: white;
       }
     }
   }
+  .sidebar__menuLiSmall {
+    justify-content: center !important;
+  }
   a {
     text-transform: none;
     text-decoration: none;
   }
   .MuiSvgIcon-fontSizeSmall {
-    font-size: 1rem !important;
+    font-size: 1.7rem !important;
   }
 }

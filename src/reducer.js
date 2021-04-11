@@ -5,6 +5,8 @@ export const initialState = {
   user_userId: "",
   user_profileImage: "",
   createPost: false,
+  sidebarStatus: false,
+  currentPostOpenId: "MC7t8mHX3k5cXouo6IoT",
 };
 
 const reducer = (state, action) => {
@@ -40,6 +42,16 @@ const reducer = (state, action) => {
       return {
         ...state,
         user_userId: action.user_userId,
+      };
+    case "SET_SIDEBAR_STATUS":
+      return {
+        ...state,
+        sidebarStatus: action.sidebarStatus,
+      };
+    case "SET_CURRENT_POSTID":
+      return {
+        ...state,
+        currentPostOpenId: action.currentPostOpenId,
       };
 
     default:

@@ -1,9 +1,9 @@
 .createPost__tata {
-  position: absolute;
+  position: fixed;
   width: 100%;
   top: 0;
   left: 0;
-  height: 100vh;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,10 +12,10 @@
 .createPost__layer {
   position: absolute;
   width: 100%;
+  top: 0;
   height: 100%;
   backdrop-filter: blur(5px);
   background: rgba(255, 255, 255, 0.7);
-  top: -30px;
   left: 0;
 }
 .createPost__form {

@@ -7,11 +7,12 @@ import { useDataLayerValue } from "../DataLayer";
 import CommentOutlinedIcon from "@material-ui/icons/CommentOutlined";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import BigPost from "./BigPost";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function Post({ postText, image, postId, userId }) {
   const [
     { user_username, user_userId, currentPostOpenId },
+    dispatch,
   ] = useDataLayerValue();
   const [commentList, setCommentList] = useState([]);
   const [commentNumber, setCommentNumber] = useState(0);
@@ -29,12 +30,10 @@ function Post({ postText, image, postId, userId }) {
   useEffect(() => {
     if (currentPostOpenId === postId) {
       setIsOpen(true);
-    } else {
-      setIsOpen(false);
     }
-  }, [pathId, postId]);
+  }, [currentPostOpenId, postId]);
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && postId) {
       const getComments = () => {
         db.collection("posts")
           .doc(postId)
@@ -85,12 +84,14 @@ function Post({ postText, image, postId, userId }) {
 
   useEffect(() => {
     const commentCount = () => {
-      db.collection("posts")
-        .doc(postId)
-        .collection("comments")
-        .onSnapshot((data) => {
-          setCommentNumber(data.size);
-        });
+      if (postId) {
+        db.collection("posts")
+          .doc(postId)
+          .collection("comments")
+          .onSnapshot((data) => {
+            setCommentNumber(data.size);
+          });
+      }
     };
     const checkLike = () => {
       db.collection("posts")
@@ -136,7 +137,6 @@ function Post({ postText, image, postId, userId }) {
         layoutId={postId}
         onClick={toggleOpen}
         className="post"
-        transition={{ duration: 0 }}
         whileHover={{ scale: 1.03 }}
         whileTap={{ scale: 0.97 }}
       >

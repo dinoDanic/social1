@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { db, firebasetime, FF } from "../lib/firebase";
+import { db, firebasetime, FB_ARRAY } from "../lib/firebase";
 import { motion } from "framer-motion";
 import "../styles/BigPost.scss";
 import { Avatar } from "@material-ui/core";
@@ -7,6 +7,7 @@ import { useDataLayerValue } from "../DataLayer";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import { Link } from "react-router-dom";
 import MiniMenu from "../components/MiniMenu";
+import CloseIcon from "@material-ui/icons/Close";
 function BigPost({
   postId,
   setIsOpen,
@@ -23,6 +24,7 @@ function BigPost({
 }) {
   const [
     { user_username, user_profileImage, user_userId },
+    dispatch,
   ] = useDataLayerValue();
   const [addComment, setAddComment] = useState("");
   const [colorLike, setColorLike] = useState("");
@@ -58,13 +60,16 @@ function BigPost({
         },
         { merge: true }
       );
-      db.collection("not_likes").doc(postId).set({
-        likedPostId: postId,
-        likedFrom: user_username,
-        likedFromId: user_userId,
-        likedToId: userId,
-        read: false,
-      });
+      db.collection("not_likes")
+        .doc()
+        .set({
+          likedPostId: postId,
+          likedFrom: user_username,
+          likedFromId: user_userId,
+          likedToId: userId,
+          customKey: Math.round(Math.random() * 1000000),
+          read: false,
+        });
     }
   };
 
@@ -75,9 +80,19 @@ function BigPost({
       setColorLike("gray");
     }
   }, [likeList, user_username]);
+
+  const layerHandler = () => {
+    setIsOpen(!isOpen);
+    setTimeout(() => {
+      dispatch({
+        type: "SET_CURRENT_POSTID",
+        currentPostOpenId: "",
+      });
+    }, 1000);
+  };
   return (
     <>
-      <div onClick={() => setIsOpen(!isOpen)} className="bigPost__layer"></div>
+      <div onClick={() => layerHandler()} className="bigPost__layer"></div>
       <motion.div className="bigPost" layoutId={postId}>
         <div className="bigPost__topControls">
           <motion.div
@@ -154,6 +169,9 @@ function BigPost({
               <button onClick={commentHanlder}></button>
             </form>
           </div>
+        </div>
+        <div className="bigPost__close">
+          <CloseIcon onClick={() => setIsOpen(!isOpen)} />
         </div>
       </motion.div>
     </>

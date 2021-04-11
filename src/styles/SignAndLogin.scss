@@ -1,3 +1,4 @@
+@import "../styles/Theme.scss";
 .login {
   display: flex;
   justify-content: center;
@@ -30,7 +31,7 @@
       border-radius: 20px;
       border: none;
       outline: none;
-      background: #6f87ff;
+      background: $mainColor;
       color: white;
       font-weight: 800;
       cursor: pointer;
@@ -75,4 +76,6 @@
 }
 .login__error {
   color: tomato;
+}
+@media (max-width: 600px) {
 }

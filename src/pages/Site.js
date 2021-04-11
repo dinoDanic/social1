@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect, useState, useRef } from "react";
 import "../styles/Site.scss";
 import Sidebar from "../components/Sidebar";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -9,21 +9,59 @@ import UserProfile from "./UserProfile";
 import FindBuddies from "./FindBuddies";
 import Posts from "./Posts";
 import Acc from "./Acc";
-import BigPost from "../components/BigPost";
+import PlayCircleFilledOutlinedIcon from "@material-ui/icons/PlayCircleFilledOutlined";
+import MenuIcon from "@material-ui/icons/Menu";
+import { Button } from "@material-ui/core";
 
 /* const posts = lazy(() => import("./Posts"));
 const acc = lazy(() => import("./Acc"));
 const findBuddies = lazy(() => import("./FindBuddies")); */
 
 function Site() {
+  const [sidebarSmall, setSidebarSmall] = useState(false);
+  const [width, setWidth] = useState(window.innerWidth);
+  const [sidebarButtonShow, setSidebarButtonShow] = useState(false);
+
+  useEffect(() => {
+    if (width < 1200 && width > 600) {
+      setSidebarSmall(true);
+    } else {
+      setSidebarSmall(false);
+    }
+  }, []);
+
   return (
     <div className="site">
       <Router>
         <Route
           render={({ location }) => (
             <Suspense fallback={<h1>Loading...</h1>}>
-              <div className="sec1">
-                <Sidebar />
+              <div
+                className={`sec1 ${sidebarSmall ? "sec1__small" : ""} ${
+                  sidebarButtonShow ? "sec1-showMenu" : ""
+                }`}
+              >
+                <Sidebar
+                  sidebarSmall={sidebarSmall}
+                  setSidebarButtonShow={setSidebarButtonShow}
+                  sidebarButtonShow={sidebarButtonShow}
+                />
+                <div
+                  className="site__arrow"
+                  onClick={() => setSidebarSmall(!sidebarSmall)}
+                >
+                  <div className={sidebarSmall ? "sec1__arrowActive" : ""}>
+                    <PlayCircleFilledOutlinedIcon fontSize="large" />
+                  </div>
+                </div>
+                <div className="sec1__menuForMobile">
+                  <Button
+                    variant="outlined"
+                    onClick={() => setSidebarButtonShow(!sidebarButtonShow)}
+                  >
+                    <MenuIcon />
+                  </Button>
+                </div>
               </div>
               <div className="sec2">
                 <AnimatePresence exitBeforeEnter initial={false}>

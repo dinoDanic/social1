@@ -1,3 +1,4 @@
+@import "../styles/Theme.scss";
 .bigPost {
   position: fixed;
   top: 5%;
@@ -131,5 +132,42 @@
   display: flex;
   div {
     margin-right: 10px;
+  }
+}
+
+// MOBILE
+.bigPost__close {
+  display: none;
+}
+@media (max-width: 600px) {
+  .bigPost {
+    min-width: 100%;
+    min-height: 100vh;
+    left: 0px;
+    top: 30px;
+    box-sizing: border-box;
+  }
+  .bigPost__close {
+    display: block;
+    position: absolute;
+    border-radius: 20px;
+    top: -25px;
+    width: 50px;
+    background: $mainColor;
+    left: 50%;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    box-sizing: border-box;
+    margin-left: -25px;
+    color: white !important;
+  }
+}
+@media (min-width: 601px) and (max-width: 1200px) {
+  .bigPost {
+    min-width: 70%;
+    min-height: 80vh;
+    left: 15%;
+    box-sizing: border-box;
   }
 }

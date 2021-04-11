@@ -1,33 +1,90 @@
 @import "Theme.scss";
 .site {
-  display: flex;
   width: 100%;
-  flex-wrap: wrap-reverse;
 }
 .sec1,
 .sec2,
 .sec3 {
-  min-width: 200px;
   padding: 40px 20px;
 }
 .sec1 {
   flex: 0.13;
-  /* border: 1px solid rgb(243, 243, 243); */
-  background: #fff;
+  color: white;
+  background: #133552;
   box-shadow: 0 0 20px -14px black;
   height: 100vh;
   z-index: 100;
   position: fixed;
   width: 230px;
   top: 0;
+  transition: 0.3s ease-in-out;
+  .site__arrow {
+    color: #a0b0bd !important;
+    cursor: pointer;
+    position: absolute;
+    bottom: 84px;
+    right: 10px;
+
+    .MuiSvgIcon-root {
+    }
+  }
+  .site__arrowRotate {
+    transition: 0.3s ease;
+    transform: rotate(180deg);
+  }
+}
+
+.sec1__arrowActive {
+  transform: rotate(180deg);
 }
 .sec2 {
   flex: 0.9;
   margin-left: 270px;
   padding: 40px 0 40px 40px;
-  height: 200vh;
 }
 .sec3 {
   flex: 0.1;
   padding: 0;
+}
+
+// MOBILE
+.sec1__small {
+  width: 75px;
+}
+.sec1__menuForMobile {
+  display: none;
+}
+@media (max-width: 600px) {
+  .sec1 {
+    left: -270px !important;
+  }
+  .sec1-showMenu {
+    left: 0 !important;
+  }
+  .sec1__menuForMobile {
+    display: block;
+    position: absolute;
+    top: 20px;
+    right: -80px;
+    .MuiButtonBase-root {
+      border-radius: 100%;
+      width: 50px;
+      height: 60px;
+      padding: 0;
+      margin: 0;
+      background: $mainColor;
+      border: none;
+      &:hover {
+        background-color: $mainColor;
+      }
+    }
+    .MuiSvgIcon-root {
+      color: white;
+    }
+  }
+  .sec2 {
+    margin-left: 0px;
+    padding: 10px 20px;
+    margin-top: 90px;
+  }
 }
