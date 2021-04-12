@@ -1,10 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/Posts.scss";
 import { db } from "../lib/firebase";
 import Post from "../components/Post";
 import { AnimateSharedLayout, motion } from "framer-motion";
 import { pageVariants } from "../functions/pageVariants";
-import { ImageAspectRatioTwoTone } from "@material-ui/icons";
+
 function Posts() {
   const [postList, setPostList] = useState([]);
   useEffect(() => {
@@ -37,6 +37,7 @@ function Posts() {
             {postList.map((data) => {
               return (
                 <Post
+                  userAvatar={data.avatar}
                   userId={data.userId}
                   postId={data.postId}
                   key={Math.random()}

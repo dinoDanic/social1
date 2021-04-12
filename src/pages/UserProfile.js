@@ -6,7 +6,6 @@ import { pageVariants } from "../functions/pageVariants";
 import { AnimateSharedLayout, motion } from "framer-motion";
 import Post from "../components/Post";
 import { Button } from "@material-ui/core";
-import SportsKabaddiIcon from "@material-ui/icons/SportsKabaddi";
 import EmojiPeopleIcon from "@material-ui/icons/EmojiPeople";
 import { useDataLayerValue } from "../DataLayer";
 

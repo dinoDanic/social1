@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import "../styles/Sidebar.scss";
 import { AnimatePresence, motion } from "framer-motion";

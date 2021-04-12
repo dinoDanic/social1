@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useState, useRef } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import "../styles/Site.scss";
 import Sidebar from "../components/Sidebar";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -12,10 +12,6 @@ import Acc from "./Acc";
 import PlayCircleFilledOutlinedIcon from "@material-ui/icons/PlayCircleFilledOutlined";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Button } from "@material-ui/core";
-
-/* const posts = lazy(() => import("./Posts"));
-const acc = lazy(() => import("./Acc"));
-const findBuddies = lazy(() => import("./FindBuddies")); */
 
 function Site() {
   const [sidebarSmall, setSidebarSmall] = useState(false);
@@ -54,8 +50,13 @@ function Site() {
                     <PlayCircleFilledOutlinedIcon fontSize="large" />
                   </div>
                 </div>
-                <div className="sec1__menuForMobile">
+                <div
+                  className={`sec1__menuForMobile ${
+                    sidebarButtonShow ? "sec1__menuForMobileActive" : ""
+                  }`}
+                >
                   <Button
+                    className={sidebarButtonShow ? "sec1__buttonActive" : ""}
                     variant="outlined"
                     onClick={() => setSidebarButtonShow(!sidebarButtonShow)}
                   >

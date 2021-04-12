@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import { db } from "../lib/firebase";
 import { Avatar, Button } from "@material-ui/core";
 import "../styles/User.scss";
-import { useDataLayerValue } from "../DataLayer";
 import { Link } from "react-router-dom";
 
 function User({ username, avatar, userId }) {
-  const [{ user_userId }] = useDataLayerValue();
   const [numberOfPosts, setNumberOfPosts] = useState(0);
   const [numberOfBuddies, setNumberOfBuddies] = useState(0);
 

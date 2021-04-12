@@ -7,7 +7,10 @@ import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import { motion } from "framer-motion";
 
 function CreatePost() {
-  const [{ user_username, userData }, dispatch] = useDataLayerValue();
+  const [
+    { user_username, userData, user_profileImage },
+    dispatch,
+  ] = useDataLayerValue();
   const [imageLink, setImageLink] = useState("");
   const [onMind, setOnMind] = useState();
   function buttonHandler(e) {
@@ -25,6 +28,7 @@ function CreatePost() {
           {
             postId: docData.id,
             userId: userData.user.uid,
+            avatar: user_profileImage,
           },
           { merge: true }
         );
@@ -34,6 +38,7 @@ function CreatePost() {
       createPost: false,
     });
   }
+
   return (
     <motion.div
       className="createPost__tata"

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 import "../styles/Notifications.scss";
 import { Button } from "@material-ui/core";
-import { db, FB_ARRAY } from "../lib/firebase";
+import { db } from "../lib/firebase";
 import { useDataLayerValue } from "../DataLayer";
 
 function Notifications() {

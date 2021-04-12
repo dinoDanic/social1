@@ -8,7 +8,6 @@ import { AnimateSharedLayout, motion } from "framer-motion";
 function Buddys() {
   const [{ user_userId }] = useDataLayerValue();
   const [buddyList, setBuddyList] = useState([]);
-  const hereChat = useRef();
   const buddysList = useRef();
 
   useEffect(() => {

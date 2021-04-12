@@ -24,6 +24,17 @@ function Acc() {
         },
         { merge: true }
       );
+      db.collection("posts")
+        .where("userId", "==", user_userId)
+        .get()
+        .then((data) => {
+          data.forEach((doc) => {
+            console.log(doc.id);
+            db.collection("posts").doc(doc.id).update({
+              avatar: avatarImageUrl,
+            });
+          });
+        });
       dispatch({
         type: "SET_AVATARPHOTO",
         user_profileImage: avatarImageUrl,
@@ -36,6 +47,17 @@ function Acc() {
         },
         { merge: true }
       );
+      db.collection("posts")
+        .where("userId", "==", user_userId)
+        .get()
+        .then((data) => {
+          data.forEach((doc) => {
+            console.log(doc.id);
+            db.collection("posts").doc(doc.id).update({
+              username: newUsername,
+            });
+          });
+        });
       dispatch({
         type: "SET_USER_USERNAME",
         user_username: newUsername,
@@ -64,18 +86,10 @@ function Acc() {
       <form onSubmit={(e) => e.preventDefault()}>
         <div className="acc__avatar">
           <div className="acc__setImage">
-            {/* <h3>{user_username}</h3> */}
             <Avatar
               src={user_profileImage}
               onClick={() => setAvatarImage(!avatarImage)}
             />
-            {/* <Button
-              onClick={() => setAvatarImage(!avatarImage)}
-              variant="outlined"
-              color="primary"
-            >
-              Set Image
-            </Button> */}
           </div>
         </div>
 

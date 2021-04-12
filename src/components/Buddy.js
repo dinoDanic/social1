@@ -12,11 +12,10 @@ function Buddy({ buddyId, buddyName }) {
   const [chatMessage, setChatMessage] = useState("");
   const [currentChatId, setCurrentChatId] = useState("");
   const [messageList, setMessageList] = useState([]);
-  const [roomCheck, setRoomCheck] = useState(false);
+  /* const [roomCheck, setRoomCheck] = useState(false); */
   const inputMessage = useRef();
   const displayChat = useRef();
   const bottomRef = useRef();
-  const buddyHolder = useRef();
 
   const startChat = () => {
     setOpenBuddyChat(!openBuddyChat);
@@ -27,7 +26,7 @@ function Buddy({ buddyId, buddyName }) {
 
   const handleSendMsg = (e) => {
     e.preventDefault();
-    if (currentChatId && inputMessage.current.value != "") {
+    if (currentChatId && inputMessage.current.value !== "") {
       db.collection("chatRoom")
         .doc(currentChatId)
         .collection("messeges")
@@ -57,7 +56,7 @@ function Buddy({ buddyId, buddyName }) {
       .where("chatUserIds", "==", getChatId())
       .get()
       .then((data) => {
-        setRoomCheck(true);
+        /* setRoomCheck(true); */
         data.forEach((doc) => {
           if (doc.exists) {
             setCurrentChatId(doc.id);

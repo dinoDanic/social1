@@ -37,6 +37,7 @@
 .sec1__arrowActive {
   transform: rotate(180deg);
 }
+
 .sec2 {
   flex: 0.9;
   margin-left: 270px;
@@ -54,6 +55,7 @@
 .sec1__menuForMobile {
   display: none;
 }
+
 @media (max-width: 600px) {
   .sec1 {
     left: -270px !important;
@@ -66,6 +68,7 @@
     position: absolute;
     top: 20px;
     right: -80px;
+    transition: 0.43s ease all;
     .MuiButtonBase-root {
       border-radius: 100%;
       width: 50px;
@@ -81,6 +84,16 @@
     .MuiSvgIcon-root {
       color: white;
     }
+  }
+  .sec1__buttonActive {
+    background: white !important;
+
+    .MuiSvgIcon-root {
+      color: $mainColor;
+    }
+  }
+  .sec1__menuForMobileActive {
+    right: 20px;
   }
   .sec2 {
     margin-left: 0px;

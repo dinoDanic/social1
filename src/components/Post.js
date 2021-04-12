@@ -9,18 +9,15 @@ import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import BigPost from "./BigPost";
 import { useLocation } from "react-router-dom";
 
-function Post({ postText, image, postId, userId }) {
+function Post({ postText, image, postId, userId, userAvatar, username }) {
   const [
     { user_username, user_userId, currentPostOpenId },
-    dispatch,
   ] = useDataLayerValue();
   const [commentList, setCommentList] = useState([]);
   const [commentNumber, setCommentNumber] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
   const [likeList, setLikeList] = useState([]);
   const [colorLike, setColorLike] = useState("");
-  const [userAvatar, setUserAvatar] = useState("");
-  const [userName, setUserName] = useState("");
   const [trueUser, setTrueUser] = useState(false);
   const location = useLocation();
   const pathId = location.pathname.split("/")[2];
@@ -65,24 +62,6 @@ function Post({ postText, image, postId, userId }) {
   }, [isOpen, postId]);
 
   useEffect(() => {
-    if (!userAvatar) {
-      const checkUserPhoto = () => {
-        if (userId) {
-          db.collection("users")
-            .where("userId", "==", userId)
-            .get()
-            .then((data) => {
-              data.forEach((doc) => {
-                setUserAvatar(doc.data().avatar);
-              });
-            });
-        }
-      };
-      checkUserPhoto();
-    }
-  }, [userAvatar, userId]);
-
-  useEffect(() => {
     const commentCount = () => {
       if (postId) {
         db.collection("posts")
@@ -105,21 +84,8 @@ function Post({ postText, image, postId, userId }) {
           setLikeList(likeListPush);
         });
     };
-    const checkUserName = () => {
-      if (userId) {
-        db.collection("users")
-          .where("userId", "==", userId)
-          .get()
-          .then((data) => {
-            data.forEach((doc) => {
-              setUserName(doc.data().username);
-            });
-          });
-      }
-    };
     commentCount();
     checkLike();
-    checkUserName();
   }, [userId, postId]);
 
   useEffect(() => {
@@ -132,13 +98,14 @@ function Post({ postText, image, postId, userId }) {
 
   return (
     <>
-      {/*  <Link to={`/post/${postId}`}> */}
       <motion.div
         layoutId={postId}
         onClick={toggleOpen}
         className="post"
-        whileHover={{ scale: 1.03 }}
-        whileTap={{ scale: 0.97 }}
+        transition={{ duration: 0 }}
+
+        /*     whileHover={{ scale: 1.03 }}
+        whileTap={{ scale: 0.97 }} */
       >
         <motion.div
           className="post__user"
@@ -147,7 +114,7 @@ function Post({ postText, image, postId, userId }) {
         >
           <Avatar className="post__avatar" src={userAvatar} />
           <div className="post__userName">
-            <h3>{userName}</h3>
+            <h3>{username}</h3>
           </div>
         </motion.div>
         <div className="post__content">
@@ -181,7 +148,6 @@ function Post({ postText, image, postId, userId }) {
           </div>
         </div>
       </motion.div>
-      {/*    </Link> */}
 
       <AnimatePresence>
         {isOpen && (
@@ -189,7 +155,7 @@ function Post({ postText, image, postId, userId }) {
             pathId={pathId}
             userId={userId}
             likeList={likeList}
-            userName={userName}
+            username={username}
             userAvatar={userAvatar}
             postId={postId}
             isOpen={isOpen}
@@ -198,28 +164,10 @@ function Post({ postText, image, postId, userId }) {
             postText={postText}
             commentList={commentList}
             trueUser={trueUser}
+            currentPostOpenId={currentPostOpenId}
           />
         )}
       </AnimatePresence>
-      {/* <AnimatePresence>
-        {isOpen && (
-          <>
-            <BigPost
-              userId={userId}
-              likeList={likeList}
-              userName={userName}
-              userAvatar={userAvatar}
-              postId={postId}
-              isOpen={isOpen}
-              setIsOpen={setIsOpen}
-              image={image}
-              postText={postText}
-              commentList={commentList}
-              trueUser={trueUser}
-            />
-          </>
-        )}
-      </AnimatePresence> */}
     </>
   );
 }

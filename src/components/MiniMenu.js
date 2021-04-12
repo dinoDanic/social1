@@ -20,14 +20,7 @@ function MiniMenu({ postId }) {
       marginRight: theme.spacing(2),
     },
   }));
-  /*   const useStyles2 = makeStyles((theme) => ({
-    root: {
-      width: "100%",
-      "& > * + *": {
-        marginTop: theme.spacing(2),
-      },
-    },
-  })); */
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -67,11 +60,6 @@ function MiniMenu({ postId }) {
 
   return (
     <div className={classes.root}>
-      {/* <div className="miniMenu__delete">
-        <Alert severity="warning">
-          Sure?<Button>Yes</Button>
-        </Alert>
-      </div> */}
       <div>
         <Button
           ref={anchorRef}

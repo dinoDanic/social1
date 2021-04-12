@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { db, firebasetime, FB_ARRAY } from "../lib/firebase";
+import { db, firebasetime } from "../lib/firebase";
 import { motion } from "framer-motion";
 import "../styles/BigPost.scss";
 import { Avatar } from "@material-ui/core";
@@ -14,13 +14,13 @@ function BigPost({
   isOpen,
   image,
   userAvatar,
-  userName,
+  username,
   postText,
   commentList,
   likeList,
   userId,
   trueUser,
-  pathId,
+  currentPostOpenId,
 }) {
   const [
     { user_username, user_profileImage, user_userId },
@@ -28,18 +28,20 @@ function BigPost({
   ] = useDataLayerValue();
   const [addComment, setAddComment] = useState("");
   const [colorLike, setColorLike] = useState("");
-
+  const bottom = useRef();
   const inputComment = useRef();
   const commentHanlder = (e) => {
     e.preventDefault();
-    db.collection("posts").doc(postId).collection("comments").add({
-      comment: addComment,
-      from: user_username,
-      postId: postId,
-      created: firebasetime,
-    });
-    inputComment.current.value = "";
-    setAddComment("");
+    if (addComment) {
+      db.collection("posts").doc(postId).collection("comments").add({
+        comment: addComment,
+        from: user_username,
+        postId: postId,
+        created: firebasetime,
+      });
+      inputComment.current.value = "";
+      setAddComment("");
+    }
   };
   const likeHandler = () => {
     if (likeList.includes(user_username)) {
@@ -83,13 +85,24 @@ function BigPost({
 
   const layerHandler = () => {
     setIsOpen(!isOpen);
-    setTimeout(() => {
-      dispatch({
-        type: "SET_CURRENT_POSTID",
-        currentPostOpenId: "",
-      });
-    }, 1000);
+    console.log(currentPostOpenId, postId);
+    if (currentPostOpenId === postId) {
+      setTimeout(() => {
+        dispatch({
+          type: "SET_CURRENT_POSTID",
+          currentPostOpenId: "",
+        });
+      }, 500);
+    }
   };
+  useEffect(() => {
+    setTimeout(() => {
+      bottom.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }, 300);
+  }, [isOpen]);
   return (
     <>
       <div onClick={() => layerHandler()} className="bigPost__layer"></div>
@@ -122,7 +135,7 @@ function BigPost({
             >
               <Avatar className="bigPost__avatar" src={userAvatar} />
               <Link to={`/user/${userId}`}>
-                <h3>{userName}</h3>
+                <h3>{username}</h3>
               </Link>
             </motion.div>
             <div className="bigPost__postContent">
@@ -141,6 +154,16 @@ function BigPost({
               <strong>Likes: </strong>
               {likeList.length}
             </p>
+          </div>
+          <div className="bigPost__info--likesFrom">
+            <p>
+              <strong>by: </strong>
+            </p>
+            <div className="bigPost__likeList">
+              {likeList?.map((data) => {
+                return <p>{data}</p>;
+              })}
+            </div>
           </div>
         </div>
         <div className="bigPost__comments">
@@ -169,6 +192,7 @@ function BigPost({
               <button onClick={commentHanlder}></button>
             </form>
           </div>
+          <div className="bigPost__bottom" ref={bottom}></div>
         </div>
         <div className="bigPost__close">
           <CloseIcon onClick={() => setIsOpen(!isOpen)} />

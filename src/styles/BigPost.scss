@@ -59,31 +59,22 @@
 .bigPost__com {
   background: #f0f2f5;
   border-radius: 20px;
-  padding: 8px 15px;
+  padding: 15px 20px;
   margin-bottom: 10px;
 }
 .bigPost__comments {
   overflow-y: scroll;
   max-height: 300px;
-  /* width */
-  ::-webkit-scrollbar {
-    width: 30px;
-  }
-
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: #d60a0a;
-  }
-
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: rgb(161, 2, 2);
-  }
-
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
+  padding-right: 20px;
+}
+::-webkit-scrollbar {
+  width: 8px;
+  background: $grayColor;
+  border-radius: 20px;
+}
+::-webkit-scrollbar-thumb {
+  background: $mainColor;
+  border-radius: 20px;
 }
 .bigPost__addComment {
   display: flex;
@@ -91,13 +82,13 @@
   width: 100%;
   box-sizing: border-box;
   .MuiAvatar-root {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
   }
   input {
     margin-left: 5px;
     border: none;
-    padding: 5px 10px;
+    padding: 12px 15px;
     border-radius: 20px;
     width: 100%;
     box-sizing: border-box;
@@ -122,19 +113,38 @@
   width: 40px;
   cursor: pointer;
   height: 40px;
+
   .MuiSvgIcon-root {
     width: 100%;
     height: 100%;
   }
 }
 .bigPost__info {
-  margin: 0 0 5px 20px;
+  margin: 20px 0;
   display: flex;
+  background: $secColor;
+  border-radius: 20px;
+  padding: 10px;
   div {
     margin-right: 10px;
   }
+  p {
+    color: white;
+  }
 }
-
+.bigPost__likeList {
+  display: flex;
+  margin-left: 4px;
+  p {
+    margin-right: 4px;
+  }
+}
+.bigPost__info--likes {
+  display: flex;
+}
+.bigPost__info--likesFrom {
+  display: flex;
+}
 // MOBILE
 .bigPost__close {
   display: none;
@@ -144,30 +154,43 @@
     min-width: 100%;
     min-height: 100vh;
     left: 0px;
-    top: 30px;
+
+    top: 0;
     box-sizing: border-box;
+    border-radius: 0;
   }
   .bigPost__close {
     display: block;
     position: absolute;
     border-radius: 20px;
-    top: -25px;
+    top: 20px;
     width: 50px;
     background: $mainColor;
-    left: 50%;
+    right: 30px;
     display: flex;
     justify-content: center;
     padding: 10px 0;
     box-sizing: border-box;
-    margin-left: -25px;
     color: white !important;
+  }
+  .bigPost__topControls {
+    top: 23px;
+    right: 80px;
+  }
+  .bigPost__postContent {
+    margin: 20px 0;
+  }
+  .bigPost__content {
+    display: flex;
+    flex-direction: column-reverse !important;
   }
 }
 @media (min-width: 601px) and (max-width: 1200px) {
   .bigPost {
     min-width: 70%;
-    min-height: 80vh;
+    min-height: 100vh;
     left: 15%;
+
     box-sizing: border-box;
   }
 }
