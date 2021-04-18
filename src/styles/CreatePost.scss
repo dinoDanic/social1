@@ -1,3 +1,4 @@
+@import "./Theme.scss";
 .createPost__tata {
   position: fixed;
   width: 100%;
@@ -20,9 +21,11 @@
 }
 .createPost__form {
   padding: 20px 20px;
-  border-radius: 20px;
+  overflow: hidden;
+  width: 500px;
+  border-radius: 10px;
   background: white;
-  box-shadow: 0 0 30px -14px black;
+  box-shadow: 0 0 20px -14px black;
   z-index: 901;
   position: relative;
   form {
@@ -33,26 +36,37 @@
     button {
       width: 100%;
       text-transform: none;
-      margin-top: 20px;
       padding: 10px;
       border: none;
-      border-radius: 20px;
+      border-radius: 10px;
     }
-    input {
+    .MuiFormControl-root {
       width: 100%;
+    }
+    /*     input {
+      width: 100%;s
       padding: 10px;
       box-sizing: border-box;
       border: none;
-      margin-top: 20px;
-    }
+    } */
+    /*  .createPost__inputMind {
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+    } */
   }
+}
+.createPost__buttonNotValid {
+  background: rgba(0, 0, 0, 0.1) !important;
+  color: rgba(0, 0, 0, 0.2) !important;
 }
 .form__name {
   display: flex;
   align-items: center;
+  margin-bottom: 20px;
 
   h3 {
     margin-left: 5px;
+    color: #333;
   }
 }
 .form__close {
@@ -60,4 +74,52 @@
   top: 0px;
   right: 0px;
   cursor: pointer;
+}
+
+.createPost__uploading {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  top: 0;
+  left: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.createPost__boxLoading {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: $mainColor;
+}
+.createPost__inputFile {
+  color: black;
+  margin: 10px 0;
+}
+.createPost__gotImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  .MuiSvgIcon-root {
+    color: #333;
+  }
+  input {
+    width: 100%;
+  }
+}
+
+// MOBILE
+@media (max-width: 600px) {
+  .createPost__form {
+    border-radius: 0;
+    z-index: 901;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 }

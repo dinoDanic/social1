@@ -4,12 +4,15 @@
   top: 5%;
   width: 40%;
   left: 30%;
-  background: white;
   border-radius: 20px;
   max-height: 80vh;
   z-index: 150;
   box-shadow: 0 0 20px -10px black;
+  display: flex;
+  flex-direction: column;
   padding: 20px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(36px);
 }
 .bigPost__layer {
   width: 100%;
@@ -27,12 +30,12 @@
 }
 .bigPost__content {
   display: flex;
-  margin-bottom: 20px;
 }
 .bigPost__image {
   margin-right: 10px;
   flex: 0.6;
   img {
+    box-shadow: 0 0 26px -12px black;
     width: 100%;
     border-radius: 20px;
   }
@@ -57,8 +60,8 @@
   margin-top: 20px;
 }
 .bigPost__com {
-  background: #f0f2f5;
   border-radius: 20px;
+  background: rgba(255, 255, 255, 0.15);
   padding: 15px 20px;
   margin-bottom: 10px;
 }
@@ -92,7 +95,7 @@
     border-radius: 20px;
     width: 100%;
     box-sizing: border-box;
-    background: #f0f2f5;
+    background: rgba(255, 255, 255, 0.15);
   }
   form {
     width: 100%;
@@ -120,16 +123,13 @@
   }
 }
 .bigPost__info {
-  margin: 20px 0;
+  margin: 10px 0;
   display: flex;
-  background: $secColor;
+  /* background: $mainColor; */
   border-radius: 20px;
-  padding: 10px;
+  padding: 15px 0;
   div {
     margin-right: 10px;
-  }
-  p {
-    color: white;
   }
 }
 .bigPost__likeList {
@@ -144,6 +144,7 @@
 }
 .bigPost__info--likesFrom {
   display: flex;
+  padding: 12px 5px;
 }
 // MOBILE
 .bigPost__close {
@@ -154,7 +155,7 @@
     min-width: 100%;
     min-height: 100vh;
     left: 0px;
-
+    overflow-y: scroll;
     top: 0;
     box-sizing: border-box;
     border-radius: 0;

@@ -1,6 +1,7 @@
 @import "Theme.scss";
 .site {
   width: 100%;
+  display: flex;
 }
 .sec1,
 .sec2,
@@ -10,7 +11,7 @@
 .sec1 {
   flex: 0.13;
   color: white;
-  background: #133552;
+  background: $mainColor;
   box-shadow: 0 0 20px -14px black;
   height: 100vh;
   z-index: 100;
@@ -56,7 +57,11 @@
   display: none;
 }
 
+// MOBILE
 @media (max-width: 600px) {
+  .site {
+    display: inline-block;
+  }
   .sec1 {
     left: -270px !important;
   }

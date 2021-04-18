@@ -9,13 +9,24 @@ function Notifications() {
   const [{ user_userId }, dispatch] = useDataLayerValue();
   const [notificationOnOff, setNotificationOnOff] = useState(false);
   const [likedList, setLikedList] = useState([]);
+  const [commentList, setCommentList] = useState([]);
   const [likedListRead, setLikedListRead] = useState([]);
+  const [commentListRead, setCommentListRead] = useState([]);
   const [notStatusButton, setNotStatusButton] = useState("");
+  const [gotNotifications, setGotNotifications] = useState(false);
 
   useEffect(() => {
-    checkIfUnreadNot();
     checkLikeNot();
+    checkCommentNot();
   }, [user_userId]);
+
+  useEffect(() => {
+    if (commentList.length > 0 || likedList.length > 0) {
+      setGotNotifications(true);
+    } else {
+      setGotNotifications(false);
+    }
+  }, [commentList, likedList]);
 
   const checkLikeNot = () => {
     if (user_userId) {
@@ -42,38 +53,29 @@ function Notifications() {
         });
     }
   };
-  /* const checkLikeNot = () => {
+  const checkCommentNot = () => {
     if (user_userId) {
-      db.collection("not_likes")
-        .where("likedToId", "==", user_userId)
+      console.log("checking comment notifications");
+      db.collection("not_comment")
+        .where("commentToId", "==", user_userId)
         .where("read", "==", false)
         .onSnapshot((data) => {
           let list = [];
           data.forEach((doc) => {
             list.push(doc.data());
           });
-          setLikedList(list);
+          setCommentList(list);
         });
-      db.collection("not_likes")
-        .where("likedToId", "==", user_userId)
+      db.collection("not_comment")
+        .where("commentToId", "==", user_userId)
         .where("read", "==", true)
         .onSnapshot((data) => {
           let list = [];
           data.forEach((doc) => {
             list.push(doc.data());
           });
-          setLikedListRead(list);
+          setCommentListRead(list);
         });
-    }
-  }; */
-
-  const checkIfUnreadNot = () => {
-    console.log(likedList);
-    if (likedList.length > 0) {
-      setNotStatusButton("not__gotNot");
-    }
-    if (likedList.length <= 0) {
-      setNotStatusButton("");
     }
   };
 
@@ -95,6 +97,31 @@ function Notifications() {
 
     setNotificationOnOff(false);
   };
+  const commentToRead = (key, id) => {
+    db.collection("not_comment")
+      .where("customKey", "==", key)
+      .get()
+      .then((data) => {
+        data.forEach((doc) => {
+          db.collection("not_comment").doc(doc.id).update({
+            read: true,
+          });
+          dispatch({
+            type: "SET_CURRENT_POSTID",
+            currentPostOpenId: id,
+          });
+        });
+      });
+
+    setNotificationOnOff(false);
+  };
+
+  const getAllNotUnread = () => {
+    let comLength = commentList.length;
+    let likeLength = likedList.length;
+    let sumaLength = comLength + likeLength;
+    return sumaLength;
+  };
   return (
     <div className="notifications">
       <div className="not__button">
@@ -104,6 +131,11 @@ function Notifications() {
           onClick={() => setNotificationOnOff(!notificationOnOff)}
         >
           <NotificationsNoneIcon />
+          {gotNotifications && (
+            <div className="not__counter">
+              <p>{getAllNotUnread()}</p>
+            </div>
+          )}
         </Button>
       </div>
       {notificationOnOff && (
@@ -118,11 +150,30 @@ function Notifications() {
               </div>
             );
           })}
+          {commentList.map((data) => {
+            return (
+              <div
+                className="not__liked"
+                onClick={() =>
+                  commentToRead(data.customKey, data.commentPostId)
+                }
+              >
+                <p>{data.commentFrom} comment your post</p>
+              </div>
+            );
+          })}
           <hr />
           {likedListRead.map((data) => {
             return (
               <div className="not__likedRead">
                 <p>{data.likedFrom} liked your post</p>
+              </div>
+            );
+          })}
+          {commentListRead.map((data) => {
+            return (
+              <div className="not__likedRead">
+                <p>{data.commentFrom} comment your post</p>
               </div>
             );
           })}

@@ -5,9 +5,11 @@ import "../styles/BigPost.scss";
 import { Avatar } from "@material-ui/core";
 import { useDataLayerValue } from "../DataLayer";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
+import CommentOutlinedIcon from "@material-ui/icons/CommentOutlined";
 import { Link } from "react-router-dom";
 import MiniMenu from "../components/MiniMenu";
 import CloseIcon from "@material-ui/icons/Close";
+import "../styles/Theme.scss";
 function BigPost({
   postId,
   setIsOpen,
@@ -21,6 +23,7 @@ function BigPost({
   userId,
   trueUser,
   currentPostOpenId,
+  imageDb,
 }) {
   const [
     { user_username, user_profileImage, user_userId },
@@ -30,6 +33,7 @@ function BigPost({
   const [colorLike, setColorLike] = useState("");
   const bottom = useRef();
   const inputComment = useRef();
+
   const commentHanlder = (e) => {
     e.preventDefault();
     if (addComment) {
@@ -39,10 +43,23 @@ function BigPost({
         postId: postId,
         created: firebasetime,
       });
+
+      db.collection("not_comment")
+        .doc()
+        .set({
+          commentPostId: postId,
+          commentFrom: user_username,
+          commentFromId: user_userId,
+          commentToId: userId,
+          customKey: Math.round(Math.random() * 1000000),
+          read: false,
+        });
+
       inputComment.current.value = "";
       setAddComment("");
     }
   };
+
   const likeHandler = () => {
     if (likeList.includes(user_username)) {
       db.collection("posts")
@@ -98,10 +115,10 @@ function BigPost({
   useEffect(() => {
     setTimeout(() => {
       bottom.current.scrollIntoView({
-        behavior: "smooth",
+        /* behavior: "smooth", */
         block: "start",
       });
-    }, 300);
+    }, 100);
   }, [isOpen]);
   return (
     <>
@@ -123,9 +140,9 @@ function BigPost({
           {trueUser && <MiniMenu postId={postId} />}
         </div>
         <div className="bigPost__content">
-          {image && (
+          {imageDb && (
             <div className="bigPost__image">
-              <motion.img layoutId={`image ${postId}`} src={image} alt="" />
+              <motion.img layoutId={`image ${postId}`} src={imageDb} alt="" />
             </div>
           )}
           <div className="bigPost__post">
@@ -143,8 +160,26 @@ function BigPost({
             </div>
           </div>
         </div>
+
         <div className="bigPost__info">
-          <div className="bigPost__info--comment">
+          <motion.div
+            className="bigPost__controls"
+            /* layoutId={`postControl ${postId}`} */
+          >
+            <div className="post__controls--likes">
+              <InsertEmoticonIcon
+                fontSize="small"
+                style={{ color: colorLike }}
+              />
+              <p>{likeList.length}</p>
+            </div>
+            <div className="post__controls--comments">
+              <CommentOutlinedIcon fontSize="small" />
+              <p>{commentList.length}</p>
+            </div>
+          </motion.div>
+
+          {/*   <div className="bigPost__info--comment">
             <p>
               <strong>Comments:</strong> {commentList.length}
             </p>
@@ -154,7 +189,7 @@ function BigPost({
               <strong>Likes: </strong>
               {likeList.length}
             </p>
-          </div>
+          </div> */}
           <div className="bigPost__info--likesFrom">
             <p>
               <strong>by: </strong>
@@ -195,7 +230,7 @@ function BigPost({
           <div className="bigPost__bottom" ref={bottom}></div>
         </div>
         <div className="bigPost__close">
-          <CloseIcon onClick={() => setIsOpen(!isOpen)} />
+          <CloseIcon onClick={() => layerHandler()} />
         </div>
       </motion.div>
     </>

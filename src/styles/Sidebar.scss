@@ -2,6 +2,7 @@
 .sidebar {
   position: relative;
   height: 100%;
+  z-index: 999;
 }
 .sidebar-small {
 }
@@ -32,7 +33,7 @@
     align-items: center;
     padding: 10px 15px;
     background: #eaf4ff;
-    background: $mainColor;
+    background: $secColor;
     color: white;
     font-size: 0.8rem;
     box-shadow: none;
@@ -42,7 +43,7 @@
     outline: none;
     &:hover {
       color: white !important;
-      background: $secColor;
+      background: $sec2Color;
     }
     .MuiSvgIcon-root {
       width: 45px !important;
@@ -71,13 +72,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #a0b0bd;
+    color: rgba(255, 255, 255, 0.5);
     p {
-      color: #a0b0bd;
+      color: rgba(255, 255, 255, 0.5);
       font-weight: 700;
     }
     &:hover {
-      background: #203f58;
+      background: $secColor;
       color: white !important;
       p {
         color: white;
@@ -93,5 +94,35 @@
   }
   .MuiSvgIcon-fontSizeSmall {
     font-size: 1.7rem !important;
+  }
+}
+.sidebar__chatIcon {
+  position: fixed;
+  top: 20px;
+
+  right: 100px;
+  .sidebar__chatIcon-btn {
+    border-radius: 100%;
+    width: 60px;
+    height: 60px;
+    padding: 0;
+    margin: 0;
+    background: $mainColor;
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+.sidebar__chatIcon-Active {
+  background: red !important;
+}
+
+//MOBILE
+
+@media (min-width: 1000px) {
+  .sidebar__chatIcon {
+    display: none;
   }
 }

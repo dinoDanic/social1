@@ -58,3 +58,19 @@
     color: white;
   }
 }
+.not__counter {
+  background: $alertColor;
+  position: absolute;
+  left: -7px;
+  top: -7px;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  p {
+    color: white;
+    font-weight: 800;
+  }
+}

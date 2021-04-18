@@ -1,0 +1,52 @@
+.chat {
+  height: 100vh;
+}
+.chat__chat {
+  overflow-y: scroll;
+  position: absolute;
+  height: 80%;
+  width: 100%;
+}
+
+.chat__chat--send {
+  box-sizing: border-box;
+  margin-top: 10px;
+
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+
+  form {
+    display: flex;
+  }
+  input {
+    width: 100%;
+    padding: 20px 15px;
+    border: none;
+    outline: none;
+    border-radius: 0;
+    border-top: 1px solid rgb(184, 184, 184);
+    box-shadow: inset none;
+    font-size: 1rem;
+  }
+  button {
+    width: 60px;
+    border-radius: 0;
+    background: none;
+    border: none;
+    color: gray;
+    opacity: 0;
+    position: absolute;
+  }
+}
+
+@media (max-width: 600px) {
+  .chat__chat--send {
+    button {
+      opacity: 1;
+      right: 0px;
+      bottom: 0px;
+      padding: 21.5px 0px;
+    }
+  }
+}

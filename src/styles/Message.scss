@@ -35,5 +35,13 @@
     color: rgb(104, 104, 104);
   }
 }
-.message__user {
+
+// MOBILE
+@media (max-width: 600px) {
+  .message__text {
+    p {
+      font-size: 1rem;
+      padding: 12px 15px;
+    }
+  }
 }

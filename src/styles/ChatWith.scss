@@ -1,0 +1,69 @@
+@import "../styles/Theme.scss";
+.chatWith {
+  background: white;
+  margin-bottom: 10px;
+  padding: 30px 20px;
+  border-radius: 20px;
+}
+.chatWith__chatWith {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.chatWith__chatWith-avatar {
+  margin-right: 10px;
+}
+
+.chatWith__user {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.chatWith__avatar {
+  margin-right: 10px;
+}
+
+.chatWith__counter {
+  background: $alertColor;
+  position: absolute;
+  right: 10px;
+  width: 50px;
+  height: 50px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  p {
+    color: white;
+    font-weight: 800;
+  }
+}
+
+// BIG CHAT
+
+.chatWith__bigChat {
+  width: 100%;
+  position: fixed;
+  height: 100%;
+  background: white;
+  top: 0;
+  left: 0;
+  z-index: 110;
+}
+.chatWith__chatWith-name {
+  h3 {
+    color: white;
+  }
+}
+.chatWith__top {
+  display: flex;
+  align-items: center;
+  background: $mainColor;
+}
+.chatWith__back {
+  margin: 20px 10px 20px 20px;
+  color: white;
+}
+.chatWith__chatWith {
+  text-align: center;
+}

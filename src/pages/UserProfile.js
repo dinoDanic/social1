@@ -22,7 +22,6 @@ function UserProfile() {
   };
 
   const addABuddy = () => {
-    console.log("ADDING BUDDY");
     db.collection("users").doc(user_userId).collection("buddys").doc().set({
       buddyId: getCurrentLocation(),
       buddyName: profileUsername,
@@ -39,7 +38,6 @@ function UserProfile() {
     createChatRoom();
   };
   const removeBuddy = () => {
-    console.log("REMOVE BUDDY");
     db.collection("users")
       .doc(user_userId)
       .collection("buddys")
@@ -73,29 +71,12 @@ function UserProfile() {
     }
   };
   const createChatRoom = () => {
-    console.log("creating chat room");
     db.collection("chatRoom").add({
       chatUserIds: createChatId(),
     });
   };
-  /* 
-  const removeChatRoom = () => {
-    console.log("removing chat room");
-    db.collection("chatRoom")
-      .where("chatUserIds", "array-contains", getCurrentLocation(), user_userId)
-      .get()
-      .then((data) => {
-        data.forEach((doc) => {
-          if (doc.exists) {
-            doc.ref.delete();
-          }
-          checkBuddy();
-        });
-      });
-  }; */
 
   const removeChatRoom = () => {
-    console.log("removing chat room", createChatId());
     db.collection("chatRoom")
       .where("chatUserIds", "==", createChatId())
       .get()
@@ -110,7 +91,6 @@ function UserProfile() {
   };
   const checkBuddy = () => {
     if (user_userId) {
-      console.log("CHEKING BUDDY");
       db.collection("users")
         .doc(user_userId)
         .collection("buddys")
@@ -118,11 +98,9 @@ function UserProfile() {
         .get()
         .then((data) => {
           data.forEach((doc) => {
-            console.log("the same name");
             setCheckBuddyStatus(true);
           });
         });
-      console.log("not the same name");
       setCheckBuddyStatus(false);
     }
   };

@@ -1,8 +1,9 @@
+@import "../styles/Theme.scss";
 .buddy {
   background: #fff;
-  width: 60px;
+  width: 160px;
   height: 60px;
-  border-radius: 100%;
+  border-radius: 20px;
   display: inline-block;
   display: flex;
   align-items: center;
@@ -16,7 +17,7 @@
     font-size: 0.8rem;
   }
   &:hover {
-    box-shadow: inset 2px 3px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: inset 2px 3px 6px rgba(0, 0, 0, 0.1);
   }
 }
 .buddy__holder {
@@ -27,12 +28,12 @@
   }
 }
 .buddy__hole {
-  width: 60px;
+  width: 160px;
   height: 60px;
   cursor: pointer;
   background: #eaecf2;
   position: absolute;
-  border-radius: 100%;
+  border-radius: 20px;
   box-shadow: inset 2px 3px 6px rgba(0, 0, 0, 0.08);
   transition: 0.2s ease-in-out box-shadow;
   top: 0;
@@ -99,3 +100,22 @@
 .scrollTo {
   margin-top: 10px;
 }
+
+.buddy__counter {
+  background: $alertColor;
+  position: absolute;
+  left: -7px;
+  top: -7px;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  p {
+    color: white;
+    font-weight: 800;
+  }
+}
+
+// MOBILE

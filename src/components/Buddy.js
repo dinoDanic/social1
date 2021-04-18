@@ -12,7 +12,8 @@ function Buddy({ buddyId, buddyName }) {
   const [chatMessage, setChatMessage] = useState("");
   const [currentChatId, setCurrentChatId] = useState("");
   const [messageList, setMessageList] = useState([]);
-  /* const [roomCheck, setRoomCheck] = useState(false); */
+  const [notMsg, setNotMsg] = useState(0);
+  const [isNotEmpty, setIsNotEmpty] = useState(false);
   const inputMessage = useRef();
   const displayChat = useRef();
   const bottomRef = useRef();
@@ -21,6 +22,7 @@ function Buddy({ buddyId, buddyName }) {
     setOpenBuddyChat(!openBuddyChat);
     if (!openBuddyChat) {
       checkRoom();
+      removeMsgNot();
     }
   };
 
@@ -39,10 +41,67 @@ function Buddy({ buddyId, buddyName }) {
         .catch(function (error) {
           console.error(error);
         });
+
+      // SETAT UNREAD MSG
+      db.collection("chatRoom")
+        .doc(currentChatId)
+        .collection("notifications")
+        .doc()
+        .set({
+          read: false,
+          sentTo: buddyId,
+        });
+      // SET UNREAD FOR MOBILE
+      db.collection("chatRoom").doc(currentChatId).update({
+        read: false,
+      });
+      // SET READ FALSE GLOBAL 3636
+      db.collection("chatRoom").doc("3636").set({
+        read: false,
+      });
     }
     inputMessage.current.value = "";
     loadMessages();
   };
+
+  const getMsgNot = () => {
+    db.collection("chatRoom")
+      .where("chatUserIds", "==", getChatId())
+      .onSnapshot((data) => {
+        data.forEach((doc) => {
+          db.collection("chatRoom")
+            .doc(doc.id)
+            .collection("notifications")
+            .where("read", "==", false)
+            .where("sentTo", "==", user_userId)
+            .onSnapshot((data) => {
+              setNotMsg(data.size);
+            });
+        });
+      });
+  };
+
+  const removeMsgNot = () => {
+    db.collection("chatRoom")
+      .where("chatUserIds", "==", getChatId())
+      .get()
+      .then((data) => {
+        data.forEach((doc) => {
+          db.collection("chatRoom")
+            .doc(doc.id)
+            .collection("notifications")
+            .where("read", "==", false)
+            .where("sentTo", "==", user_userId)
+            .get()
+            .then((data) => {
+              data.forEach((doc) => {
+                doc.ref.delete();
+              });
+            });
+        });
+      });
+  };
+
   const getChatId = () => {
     if (buddyId < user_userId) {
       return buddyId + user_userId;
@@ -56,7 +115,6 @@ function Buddy({ buddyId, buddyName }) {
       .where("chatUserIds", "==", getChatId())
       .get()
       .then((data) => {
-        /* setRoomCheck(true); */
         data.forEach((doc) => {
           if (doc.exists) {
             setCurrentChatId(doc.id);
@@ -65,14 +123,6 @@ function Buddy({ buddyId, buddyName }) {
         });
       });
   };
-
-  useEffect(() => {
-    loadMessages();
-  }, [currentChatId]);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [currentChatId, openBuddyChat, messageList]);
 
   const loadMessages = () => {
     if (currentChatId) {
@@ -107,7 +157,7 @@ function Buddy({ buddyId, buddyName }) {
           "buddy__chatHolder"
         );
         let msgCount = msgPrentChildren.length;
-        let margin = 110;
+        let margin = 200;
         for (let i = 0; i < msgCount; i++) {
           msgPrentChildren[i].style.right = `${margin}px`;
           margin = margin + 320;
@@ -116,6 +166,23 @@ function Buddy({ buddyId, buddyName }) {
     };
     getChatWindows();
   }, [openBuddyChat, setOpenBuddyChat]);
+
+  useEffect(() => {
+    loadMessages();
+  }, [currentChatId]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [currentChatId, openBuddyChat, messageList]);
+
+  useEffect(() => {
+    getMsgNot();
+    if (notMsg > 0) {
+      setIsNotEmpty(true);
+    } else {
+      setIsNotEmpty(false);
+    }
+  }, [notMsg, setNotMsg]);
 
   return (
     <>
@@ -133,6 +200,11 @@ function Buddy({ buddyId, buddyName }) {
           layoutId={buddyId}
         >
           <motion.h4>{buddyName}</motion.h4>
+          {isNotEmpty && (
+            <div className="buddy__counter">
+              <p>{notMsg}</p>
+            </div>
+          )}
         </motion.div>
       </motion.div>
       <AnimatePresence>

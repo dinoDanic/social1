@@ -9,7 +9,15 @@ import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import BigPost from "./BigPost";
 import { useLocation } from "react-router-dom";
 
-function Post({ postText, image, postId, userId, userAvatar, username }) {
+function Post({
+  postText,
+  image,
+  postId,
+  userId,
+  userAvatar,
+  username,
+  imageDb,
+}) {
   const [
     { user_username, user_userId, currentPostOpenId },
   ] = useDataLayerValue();
@@ -118,11 +126,11 @@ function Post({ postText, image, postId, userId, userAvatar, username }) {
           </div>
         </motion.div>
         <div className="post__content">
-          {image && (
+          {imageDb && (
             <div className="post__image">
               <motion.img
                 layoutId={`image ${postId}`}
-                src={image}
+                src={imageDb}
                 alt=""
                 transition={{ duration: 0 }}
               />
@@ -137,7 +145,10 @@ function Post({ postText, image, postId, userId, userAvatar, username }) {
             </motion.p>
           </div>
         </div>
-        <div className="post__controls">
+        <motion.div
+          className="post__controls"
+          /* layoutId={`postControl ${postId}`} */
+        >
           <div className="post__controls--likes">
             <InsertEmoticonIcon fontSize="small" style={{ color: colorLike }} />
             <p>{likeList.length}</p>
@@ -146,7 +157,7 @@ function Post({ postText, image, postId, userId, userAvatar, username }) {
             <CommentOutlinedIcon fontSize="small" />
             <p>{commentNumber}</p>
           </div>
-        </div>
+        </motion.div>
       </motion.div>
 
       <AnimatePresence>
@@ -161,6 +172,7 @@ function Post({ postText, image, postId, userId, userAvatar, username }) {
             isOpen={isOpen}
             setIsOpen={setIsOpen}
             image={image}
+            imageDb={imageDb}
             postText={postText}
             commentList={commentList}
             trueUser={trueUser}

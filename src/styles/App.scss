@@ -1,3 +1,4 @@
+@import "./Theme.scss";
 body {
   margin: 0;
   padding: 0;
@@ -27,4 +28,7 @@ a {
   text-transform: none;
   text-decoration: none;
   color: #333;
+}
+.MuiButtonBase-root {
+  background: $mainColor !important;
 }

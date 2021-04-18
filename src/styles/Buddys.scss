@@ -6,6 +6,14 @@
     text-align: center;
   }
 }
+/* .buddys {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  h4 {
+    text-align: center;
+  }
+} */
 .buddys__list {
   margin-top: 10px;
   position: relative;
@@ -30,7 +38,7 @@
   width: auto;
 }
 // MOBILE
-@media (max-width: 600px) {
+@media (max-width: 1000px) {
   .buddys {
     display: none;
   }

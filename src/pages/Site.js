@@ -7,6 +7,7 @@ import Notifications from "../components/Notifications";
 import Buddys from "../components/Buddys";
 import UserProfile from "./UserProfile";
 import FindBuddies from "./FindBuddies";
+import Chat from "./chat/index";
 import Posts from "./Posts";
 import Acc from "./Acc";
 import PlayCircleFilledOutlinedIcon from "@material-ui/icons/PlayCircleFilledOutlined";
@@ -71,6 +72,7 @@ function Site() {
                     <Route path="/acc" exact component={Acc} />
                     <Route exact path="/findbuddies" component={FindBuddies} />
                     <Route exact path={["/user/:id"]} component={UserProfile} />
+                    <Route exact path={["/chat"]} component={Chat} />
                   </Switch>
                 </AnimatePresence>
               </div>
